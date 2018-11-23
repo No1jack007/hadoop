@@ -10,7 +10,17 @@ public class HadoopApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HadoopApplication.class, args);
-        HBaseService hBaseService= SpringUtil.getBean(HBaseService.class);
+        hBaseTest();
+
+    }
+
+    public static void hBaseTest(){
+        try {
+            HBaseService hBaseService= SpringUtil.getBean(HBaseService.class);
+            hBaseService.insert();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 }

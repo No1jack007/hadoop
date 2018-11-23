@@ -7,10 +7,13 @@ import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hbase.thirdparty.io.netty.handler.codec.http2.Http2FrameReader;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.swing.text.html.ObjectView;
 
 
 /**
@@ -32,8 +35,16 @@ public class HBaseService {
 
     public void insert() throws Exception{
         table=connection.getTable(TableName.valueOf("user"));
-//        Put put=new Put();
-//        table.put(put);
+        Put put=new Put(Bytes.toBytes("2"));
+        put.addColumn(Bytes.toBytes("info1"),Bytes.toBytes("name"),Bytes.toBytes("zhangsan"));
+        put.addColumn(Bytes.toBytes("info1"),Bytes.toBytes("age"),Bytes.toBytes("23"));
+        table.put(put);
+        this.close();
+    }
+
+    public void close() throws Exception{
+        table.close();
+        connection.close();
     }
 
 }
