@@ -21,6 +21,5 @@ public class HadoopApplication {
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
 }
