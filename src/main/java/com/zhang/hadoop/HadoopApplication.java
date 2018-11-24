@@ -26,8 +26,8 @@ public class HadoopApplication {
     public static void hBaseTest() {
         try {
             HBaseService hBaseService= SpringUtil.getBean(HBaseService.class);
-//            HBaseService hBaseService = new HBaseService();
-            hBaseService.insert();
+//            hBaseService.insert();
+            hBaseService.deleteDate();
         } catch (Exception e) {
             e.printStackTrace();
         }
