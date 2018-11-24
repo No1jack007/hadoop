@@ -34,6 +34,16 @@ public class HBaseService {
         connection.close();
     }
 
+    public void test(){
+        try {
+//            insert();
+//            deleteData();
+            scanData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void insert() throws Exception {
         table = connection.getTable(TableName.valueOf("user"));
         Put put = new Put(Bytes.toBytes("2"));
@@ -57,7 +67,9 @@ public class HBaseService {
         table = connection.getTable(TableName.valueOf("user"));
         Get get=new Get(Bytes.toBytes("1"));
         Result result=table.get(get);
-
+        byte[] value=result.getValue(Bytes.toBytes("info1"),Bytes.toBytes("name"));
+        System.out.println(Bytes.toString(value));
+        this.close();
     }
 
 

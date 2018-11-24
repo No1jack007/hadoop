@@ -1,6 +1,7 @@
 package com.zhang.hadoop;
 
 import com.zhang.hadoop.service.HBaseService;
+import com.zhang.hadoop.util.Base64;
 import com.zhang.hadoop.util.SpringUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,12 +25,7 @@ public class HadoopApplication {
     }
 
     public static void hBaseTest() {
-        try {
-            HBaseService hBaseService= SpringUtil.getBean(HBaseService.class);
-//            hBaseService.insert();
-//            hBaseService.deleteData();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        HBaseService hBaseService= SpringUtil.getBean(HBaseService.class);
+        hBaseService.test();
     }
 }
