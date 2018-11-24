@@ -4,8 +4,12 @@ import com.zhang.hadoop.service.HBaseService;
 import com.zhang.hadoop.util.SpringUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan(basePackages={"com.zhang"})
 public class HadoopApplication {
 
     public static void main(String[] args) {
@@ -14,11 +18,17 @@ public class HadoopApplication {
 
     }
 
-    public static void hBaseTest(){
+    @Bean
+    public SpringUtil getSpringUtil2() {
+        return new SpringUtil();
+    }
+
+    public static void hBaseTest() {
         try {
             HBaseService hBaseService= SpringUtil.getBean(HBaseService.class);
+//            HBaseService hBaseService = new HBaseService();
             hBaseService.insert();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
