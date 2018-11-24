@@ -29,6 +29,11 @@ public class HBaseService {
         connection = ConnectionFactory.createConnection(configuration);
     }
 
+    public void close() throws Exception {
+        table.close();
+        connection.close();
+    }
+
     public void insert() throws Exception {
         table = connection.getTable(TableName.valueOf("user"));
         Put put = new Put(Bytes.toBytes("2"));
@@ -39,7 +44,7 @@ public class HBaseService {
         this.close();
     }
 
-    public void deleteDate() throws Exception {
+    public void deleteData() throws Exception {
         table = connection.getTable(TableName.valueOf("user"));
         Delete delete=new Delete(Bytes.toBytes("2"));
         delete.addFamily(Bytes.toBytes("info2"));
@@ -48,9 +53,13 @@ public class HBaseService {
         this.close();
     }
 
-    public void close() throws Exception {
-        table.close();
-        connection.close();
+    public void scanData()throws Exception{
+        table = connection.getTable(TableName.valueOf("user"));
+        Get get=new Get(Bytes.toBytes("1"));
+        Result result=table.get(get);
+
     }
+
+
 
 }
