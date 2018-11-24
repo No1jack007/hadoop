@@ -1,20 +1,18 @@
 package com.zhang.hadoop;
 
 import com.zhang.hadoop.service.HBaseService;
-import com.zhang.hadoop.util.Base64;
 import com.zhang.hadoop.util.SpringUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages={"com.zhang"})
-public class HadoopApplication {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(HadoopApplication.class, args);
+        SpringApplication.run(Application.class, args);
         hBaseTest();
 
     }

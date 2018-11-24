@@ -38,7 +38,7 @@ public class HBaseService {
         try {
 //            insert();
 //            deleteData();
-            scanData();
+//            scanData();
         } catch (Exception e) {
             e.printStackTrace();
         }
