@@ -5,12 +5,7 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.hbase.thirdparty.io.netty.handler.codec.http2.Http2FrameReader;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.ObjectView;
-
 
 /**
  * Created by zhang yufei on 2018/11/22.
