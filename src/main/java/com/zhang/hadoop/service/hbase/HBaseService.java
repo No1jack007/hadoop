@@ -39,7 +39,8 @@ public class HBaseService {
 //            scanData();
 //            singleColumnValueFilter();
 //            columnPrefixFilter();
-            rowKeyFilter();
+//            rowKeyFilter();
+            filterList();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,11 +105,11 @@ public class HBaseService {
     public void singleColumnValueFilter() throws Exception {
         table = connection.getTable(TableName.valueOf("user"));
         //创建过滤器
-        SingleColumnValueExcludeFilter filter =new SingleColumnValueExcludeFilter(
-                        Bytes.toBytes("info1"),
-                        Bytes.toBytes("name"),
-                        CompareOperator.EQUAL,
-                        Bytes.toBytes("zhangyufei"));
+        SingleColumnValueExcludeFilter filter = new SingleColumnValueExcludeFilter(
+                Bytes.toBytes("info1"),
+                Bytes.toBytes("name"),
+                CompareOperator.EQUAL,
+                Bytes.toBytes("zhangyufei"));
         Scan scan = new Scan();
         //设置过滤器
         scan.setFilter(filter);
@@ -128,7 +129,7 @@ public class HBaseService {
     public void columnPrefixFilter() throws Exception {
         table = connection.getTable(TableName.valueOf("user"));
         //创建过滤器
-        ColumnPrefixFilter filter=new ColumnPrefixFilter(Bytes.toBytes("name"));
+        ColumnPrefixFilter filter = new ColumnPrefixFilter(Bytes.toBytes("name"));
         Scan scan = new Scan();
         //设置过滤器
         scan.setFilter(filter);
@@ -148,7 +149,7 @@ public class HBaseService {
     public void rowKeyFilter() throws Exception {
         table = connection.getTable(TableName.valueOf("user"));
         //创建过滤器
-        Filter filter=new RowFilter(CompareOperator.EQUAL,new RegexStringComparator("^1"));
+        Filter filter = new RowFilter(CompareOperator.EQUAL, new RegexStringComparator("^1"));
         Scan scan = new Scan();
         //设置过滤器
         scan.setFilter(filter);
@@ -164,6 +165,35 @@ public class HBaseService {
         this.close();
     }
 
+    //filterList
+    public void filterList() throws Exception {
+        table = connection.getTable(TableName.valueOf("user"));
+        //创建过滤器
+        FilterList filterList = new FilterList(FilterList.Operator.MUST_PASS_ONE);
+
+        SingleColumnValueExcludeFilter filter1 = new SingleColumnValueExcludeFilter(
+                Bytes.toBytes("info1"),
+                Bytes.toBytes("name"),
+                CompareOperator.EQUAL,
+                Bytes.toBytes("zhangyufei"));
+        filterList.addFilter(filter1);
+        ColumnPrefixFilter filter2 = new ColumnPrefixFilter(Bytes.toBytes("name"));
+        filterList.addFilter(filter2);
+
+        Scan scan = new Scan();
+        //设置过滤器
+        scan.setFilter(filterList);
+        ResultScanner scanner = table.getScanner(scan);
+        for (Result result : scanner) {
+            byte[] value = result.getValue(Bytes.toBytes("info1"), Bytes.toBytes("name"));
+            System.out.println(Bytes.toString(value));
+            byte[] age = result.getValue(Bytes.toBytes("info1"), Bytes.toBytes("age"));
+            System.out.println(Bytes.toString(age));
+            byte[] like = result.getValue(Bytes.toBytes("info2"), Bytes.toBytes("like"));
+            System.out.println(Bytes.toString(like));
+        }
+        this.close();
+    }
 
 
 }
