@@ -16,7 +16,7 @@ import java.util.Map;
  * Created by zhang yufei on 2018/7/29.
  */
 @Service
-public class HdfsClientDemo {
+public class HdfsClientService {
 
     FileSystem fs=null;
     Configuration configuration=null;
@@ -28,6 +28,13 @@ public class HdfsClientDemo {
         fs= FileSystem.get(new URI("hdfs://192.168.10.11:9000"),configuration,"root");
     }
 
+    public void test(){
+        try {
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     public void testUpload() throws Exception{
         fs.copyFromLocalFile(new Path("c:/临时/鬼 吹 灯(1-8加续).txt"),new Path("/access.log.copy"));

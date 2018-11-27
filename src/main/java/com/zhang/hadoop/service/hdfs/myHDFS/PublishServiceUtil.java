@@ -1,4 +1,4 @@
-package com.zhang.hadoop.service.hdfs;
+package com.zhang.hadoop.service.hdfs.myHDFS;
 
 
 import org.apache.hadoop.conf.Configuration;
