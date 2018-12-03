@@ -1,4 +1,4 @@
-package com.zhang.hadoop.service.redis.config;
+package com.zhang.hadoop.service.redis.redisSession;
 
 import com.zhang.hadoop.service.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;

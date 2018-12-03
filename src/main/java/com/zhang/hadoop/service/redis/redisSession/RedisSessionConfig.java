@@ -1,4 +1,4 @@
-package com.zhang.hadoop.service.redis.config;
+package com.zhang.hadoop.service.redis.redisSession;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
