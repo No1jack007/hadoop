@@ -1,5 +1,6 @@
 package com.zhang.hadoop.yunbiji.controller;
 
+import com.zhang.hadoop.util.StringUtil;
 import com.zhang.hadoop.yunbiji.constants.Constants;
 import com.zhang.hadoop.yunbiji.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class NoteController {
     public Map<String,Object> getAllNoteBook(HttpServletRequest request){
         Map<String,Object> result=new HashMap<>();
         String userId=request.getSession().getAttribute(Constants.USER_INFO).toString();
+        if(StringUtil.isEmpty(userId)){
+            result.put("message","error");
+        }
         result=noteService.getAllNoteBook(userId);
         return result;
     }

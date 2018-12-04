@@ -9,6 +9,9 @@ import org.apache.hadoop.hbase.filter.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by zhang yufei on 2018/11/22.
  */
@@ -19,7 +22,7 @@ public class HBaseService {
     private Connection connection;
     private Table table;
 
-    public HBaseService() throws Exception {
+    public void init() throws Exception {
         configuration = HBaseConfiguration.create();
         configuration.set("hbase.zookeeper.quorum", "hadoop1");
         configuration.set("hbase.zookeeper.property.clientPort", "2181");
@@ -33,6 +36,7 @@ public class HBaseService {
 
     public void test() {
         try {
+            this.init();
 //            insert();
 //            deleteData();
 //            queryData();
@@ -196,7 +200,9 @@ public class HBaseService {
     }
 
     //rowKey过滤器
-    public ResultScanner rowKeyFilter(String tableName,String rowKey) throws Exception {
+    public Map rowKeyFilter(String tableName,String rowKey) throws Exception {
+        this.init();
+        Map result=new HashMap<>();
         table = connection.getTable(TableName.valueOf(tableName));
         //创建过滤器
         Filter filter = new RowFilter(CompareOperator.EQUAL, new RegexStringComparator(rowKey));
@@ -204,7 +210,18 @@ public class HBaseService {
         //设置过滤器
         scan.setFilter(filter);
         ResultScanner scanner = table.getScanner(scan);
+        for (Result row : scanner) {
+            Map result1=new HashMap<>();
+            result1.put("rowKey",Bytes.toString(row.getRow()));
+            byte[] name = row.getValue(Bytes.toBytes("info1"), Bytes.toBytes("name"));
+            result1.put("name",Bytes.toString(name));
+            byte[] age = row.getValue(Bytes.toBytes("info1"), Bytes.toBytes("age"));
+            result1.put("age",Bytes.toString(age));
+            byte[] like = row.getValue(Bytes.toBytes("info2"), Bytes.toBytes("like"));
+            result1.put("like",Bytes.toString(like));
+            result.put(result1.get("rowKey"),result1);
+        }
         this.close();
-        return scanner;
+        return result;
     }
 }
