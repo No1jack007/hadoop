@@ -19,7 +19,6 @@ public class RedisSessionConfig {
 
     /**
      * 自定义返回给前端的Cookie的项目根路径
-     *
      * @return
      */
 //    @Bean
@@ -29,8 +28,9 @@ public class RedisSessionConfig {
         return defaultCookieSerializer;
     }
 
-    //    @Bean
+//    @Bean
     public static ConfigureRedisAction configureRedisAction() {
         return ConfigureRedisAction.NO_OP;
     }
+
 } 
