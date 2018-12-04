@@ -195,5 +195,16 @@ public class HBaseService {
         this.close();
     }
 
-
+    //rowKey过滤器
+    public ResultScanner rowKeyFilter(String tableName,String rowKey) throws Exception {
+        table = connection.getTable(TableName.valueOf(tableName));
+        //创建过滤器
+        Filter filter = new RowFilter(CompareOperator.EQUAL, new RegexStringComparator(rowKey));
+        Scan scan = new Scan();
+        //设置过滤器
+        scan.setFilter(filter);
+        ResultScanner scanner = table.getScanner(scan);
+        this.close();
+        return scanner;
+    }
 }

@@ -43,7 +43,10 @@ public class RedisService {
         stringRedisTemplate.opsForHash().putAll(key, values);
     }
 
-    
+//    public List listGet(String key){
+//        return stringRedisTemplate.opsForList().
+//    }
+
     public String get(String key) {
         return stringRedisTemplate.opsForValue().get(key);
     }
@@ -52,6 +55,8 @@ public class RedisService {
     public void set(String key, String value) {
         stringRedisTemplate.opsForValue().set(key, value);
     }
+
+
 
     
     public void sadd(String key, String... value) {
