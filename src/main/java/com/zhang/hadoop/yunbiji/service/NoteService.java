@@ -26,7 +26,7 @@ public class NoteService {
     public Map getAllNoteBook(String userId) {
         Map result=new HashMap<>();
         try {
-            result=redisService.hmget(Constants.ROW_SEPARATOR+Constants.ROW_SEPARATOR+userId);
+            result=redisService.hmget(Constants.USER_INFO+Constants.ROW_SEPARATOR+userId);
             if(result!=null && result.size()>0){
                 return  result;
             }
