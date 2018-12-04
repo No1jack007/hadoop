@@ -33,4 +33,18 @@ public class NoteController {
         result=noteService.getAllNoteBook(userId);
         return result;
     }
+
+    @RequestMapping("/addNoteBook")
+    @ResponseBody
+    public Map<String,Object> addNoteBook(HttpServletRequest request,String noteBookName){
+        Map<String,Object> result=new HashMap<>();
+        String userId=request.getSession().getAttribute(Constants.USER_INFO).toString();
+        if(StringUtil.isEmpty(userId)){
+            result.put("message","error");
+        }
+        Long creteTime=System.currentTimeMillis();
+        result=noteService.addNoteBook(userId,creteTime.toString(),noteBookName);
+        return result;
+    }
+
 }
