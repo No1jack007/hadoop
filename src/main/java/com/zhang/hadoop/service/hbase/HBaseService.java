@@ -7,6 +7,8 @@ import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.*;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.hadoop.hbase.HbaseTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -23,16 +25,16 @@ public class HBaseService {
     private Connection connection;
     private Table table;
 
-//    @Autowired
-//    public HbaseTemplate hbaseTemplate() {
-//        HbaseTemplate hbaseTemplate = new HbaseTemplate();
-//        org.apache.hadoop.conf.Configuration conf = HBaseConfiguration.create();
-//        conf.set("hbase.zookeeper.quorum", "hadoop1");
-//        conf.set("hbase.zookeeper.port", "2181");
-//        hbaseTemplate.setConfiguration(conf);
-//        hbaseTemplate.setAutoFlush(true);
-//        return hbaseTemplate;
-//    }
+    @Autowired
+    public HbaseTemplate hbaseTemplate() {
+        HbaseTemplate hbaseTemplate = new HbaseTemplate();
+        org.apache.hadoop.conf.Configuration conf = HBaseConfiguration.create();
+        conf.set("hbase.zookeeper.quorum", "hadoop1");
+        conf.set("hbase.zookeeper.port", "2181");
+        hbaseTemplate.setConfiguration(conf);
+        hbaseTemplate.setAutoFlush(true);
+        return hbaseTemplate;
+    }
 
     public void init() throws Exception {
         configuration = HBaseConfiguration.create();
@@ -56,7 +58,7 @@ public class HBaseService {
 //            singleColumnValueFilter();
 //            columnPrefixFilter();
 //            rowKeyFilter();
-//            filterList();
+            filterList();
         } catch (Exception e) {
             e.printStackTrace();
         }
