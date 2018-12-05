@@ -45,22 +45,24 @@ public class NoteService {
         return result;
     }
 
-    public Map<String, Object> addNoteBook(String userId, String creteTime, String noteBookName) {
+    public Map<String, Object> addNoteBook(String userId, String createTime, String noteBookName) {
         Map result = new HashMap<>();
         try {
             boolean isSuccess = false;
-            isSuccess = this.addNoteBookToRedis(userId, creteTime, noteBookName);
+            isSuccess = this.addNoteBookToRedis(userId, createTime, noteBookName);
             if (isSuccess) {
-                isSuccess = addNoteBookToHBase(userId, creteTime, noteBookName);
+                isSuccess = addNoteBookToHBase(userId, createTime, noteBookName);
                 if (!isSuccess) {
-                    this.deleteNoteBookFromRedis(userId, creteTime, noteBookName);
+                    this.deleteNoteBookFromRedis(userId, createTime, noteBookName);
                 }
             }
-            result.put("status","success");
+            String rowKey = userId + Constants.ROW_SEPARATOR + createTime;
+            result.put("rowKey", rowKey);
+            result.put("status", "success");
         } catch (Exception e) {
             e.printStackTrace();
-            this.deleteNoteBookFromRedis(userId, creteTime, noteBookName);
-            result.put("status","error");
+            this.deleteNoteBookFromRedis(userId, createTime, noteBookName);
+            result.put("status", "error");
         }
         return result;
     }
@@ -90,7 +92,38 @@ public class NoteService {
     }
 
     public boolean deleteNoteBookFromRedis(String userId, String createTime, String noteBookName) {
+        StringBuffer noteBookToSting = new StringBuffer();
+        noteBookToSting.append(userId).append(Constants.ROW_SEPARATOR)
+                .append(createTime).append(Constants.STRING_SEPARATOR)
+                .append(noteBookName).append(Constants.STRING_SEPARATOR)
+                .append(createTime).append(Constants.STRING_SEPARATOR);
+        redisService.del(noteBookToSting.toString());
+        return true;
+    }
 
+    public Map<String, Object> deleteNoteBook(String userId, String createTime, String noteBookName) {
+        Map result = new HashMap<>();
+        try {
+            boolean isSuccess = false;
+            isSuccess=this.deleteNoteBookFromRedis(userId, createTime, noteBookName);
+            if(isSuccess){
+                isSuccess = deleteNoteBookFromHBase(userId, createTime, noteBookName);
+                if(isSuccess){
+                    this.addNoteBookToRedis(userId, createTime, noteBookName);
+                }
+            }
+            result.put("status", "success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.addNoteBookToRedis(userId, createTime, noteBookName);
+            result.put("status", "error");
+        }
+        return result;
+    }
+
+    public boolean deleteNoteBookFromHBase(String userId, String createTime, String noteBookName) throws Exception {
+        String rowKey = userId + Constants.ROW_SEPARATOR + createTime;
+        hBaseService.delete(Constants.NOT_TABLE_NAME,rowKey);
         return true;
     }
 

@@ -1,5 +1,6 @@
 package com.zhang.hadoop.yunbiji.controller;
 
+import com.codahale.metrics.EWMA;
 import com.zhang.hadoop.util.StringUtil;
 import com.zhang.hadoop.yunbiji.constants.Constants;
 import com.zhang.hadoop.yunbiji.service.NoteService;
@@ -44,6 +45,19 @@ public class NoteController {
         }
         Long creteTime=System.currentTimeMillis();
         result=noteService.addNoteBook(userId,creteTime.toString(),noteBookName);
+        return result;
+    }
+
+    @RequestMapping("/deleteNoteBook")
+    @ResponseBody
+    public Map<String,Object> deleteNoteBook(HttpServletRequest request,String rowKey,String noteBookName){
+        Map<String,Object> result=new HashMap<>();
+        String userId=request.getSession().getAttribute(Constants.USER_INFO).toString();
+        if(StringUtil.isEmpty(userId)){
+            result.put("message","error");
+        }
+        String split[]= rowKey.split("\\"+Constants.ROW_SEPARATOR);
+        result=noteService.deleteNoteBook(split[0],split[1],noteBookName);
         return result;
     }
 

@@ -260,4 +260,12 @@ public class HBaseService {
         table.put(put);
         this.close();
     }
+
+    public void delete(String tableName,String rewKey) throws Exception {
+        this.init();
+        table = connection.getTable(TableName.valueOf(tableName));
+        Delete delete = new Delete(Bytes.toBytes(rewKey));
+        table.delete(delete);
+        this.close();
+    }
 }
