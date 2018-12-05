@@ -157,6 +157,18 @@
             <version>${hbase.version}</version>
         </dependency>
 
+        <!--springData hadoop-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-hadoop</artifactId>
+            <version>2.4.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-hadoop-core</artifactId>
+            <version>2.4.0.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
     <build>
