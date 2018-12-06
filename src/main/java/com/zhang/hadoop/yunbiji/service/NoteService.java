@@ -105,10 +105,10 @@ public class NoteService {
         Map result = new HashMap<>();
         try {
             boolean isSuccess = false;
-            isSuccess=this.deleteNoteBookFromRedis(userId, createTime, noteBookName);
-            if(isSuccess){
+            isSuccess = this.deleteNoteBookFromRedis(userId, createTime, noteBookName);
+            if (isSuccess) {
                 isSuccess = deleteNoteBookFromHBase(userId, createTime, noteBookName);
-                if(isSuccess){
+                if (isSuccess) {
                     this.addNoteBookToRedis(userId, createTime, noteBookName);
                 }
             }
@@ -123,7 +123,7 @@ public class NoteService {
 
     public boolean deleteNoteBookFromHBase(String userId, String createTime, String noteBookName) throws Exception {
         String rowKey = userId + Constants.ROW_SEPARATOR + createTime;
-        hBaseService.delete(Constants.NOT_TABLE_NAME,rowKey);
+        hBaseService.delete(Constants.NOT_TABLE_NAME, rowKey);
         return true;
     }
 
