@@ -261,7 +261,7 @@ public class HBaseService {
         this.close();
     }
 
-    public void delete(String tableName,String rewKey) throws Exception {
+    public void delete(String tableName, String rewKey) throws Exception {
         this.init();
         table = connection.getTable(TableName.valueOf(tableName));
         Delete delete = new Delete(Bytes.toBytes(rewKey));

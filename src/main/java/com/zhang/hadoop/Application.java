@@ -2,6 +2,7 @@ package com.zhang.hadoop;
 
 import com.zhang.hadoop.service.hbase.HBaseService;
 import com.zhang.hadoop.service.hdfs.HdfsClientService;
+import com.zhang.hadoop.service.storm.stormWordCount.WordCountMain;
 import com.zhang.hadoop.service.zooKeeper.ZkClientService;
 import com.zhang.hadoop.util.SpringUtil;
 import org.springframework.boot.SpringApplication;
@@ -21,6 +22,8 @@ public class Application {
         SpringApplication.run(Application.class, args);
         hBaseTest();
         zookeeperTest();
+        hdfsTest();
+        stormTest();
     }
 
     @Bean
@@ -30,16 +33,21 @@ public class Application {
 
     public static void hBaseTest() {
         HBaseService bean= SpringUtil.getBean(HBaseService.class);
-        bean.test();
+//        bean.test();
     }
 
     public static void zookeeperTest() {
         ZkClientService bean= SpringUtil.getBean(ZkClientService.class);
-        bean.test();
+//        bean.test();
     }
 
     public static void hdfsTest() {
         HdfsClientService bean= SpringUtil.getBean(HdfsClientService.class);
+//        bean.test();
+    }
+
+    public static void stormTest(){
+        WordCountMain bean=SpringUtil.getBean(WordCountMain.class);
         bean.test();
     }
 

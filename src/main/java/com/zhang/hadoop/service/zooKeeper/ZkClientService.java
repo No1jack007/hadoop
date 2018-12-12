@@ -12,18 +12,18 @@ import java.util.List;
 @Service
 public class ZkClientService {
 
-    private static final String connectString="192.168.10.11:2181";
-    private static final int sessionTimeout=2000;
-    public ZooKeeper zkClient=null;
+    private static final String connectString = "192.168.10.11:2181";
+    private static final int sessionTimeout = 2000;
+    public ZooKeeper zkClient = null;
 
-    public void SimpleZkClient() throws Exception{
-        zkClient=new ZooKeeper(connectString, sessionTimeout, new Watcher() {
+    public void init() throws Exception {
+        zkClient = new ZooKeeper(connectString, sessionTimeout, new Watcher() {
             @Override
             public void process(WatchedEvent event) {
                 //收到时间通知后的回掉函数
-                System.out.println(event.getType()+"----"+event.getPath());
+                System.out.println(event.getType() + "----" + event.getPath());
                 try {
-                    zkClient.getChildren("/",true);
+                    zkClient.getChildren("/", true);
                 } catch (KeeperException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
@@ -33,53 +33,53 @@ public class ZkClientService {
         });
     }
 
-    public void test(){
+    public void test() {
         try {
-
-        }catch (Exception e){
+            this.init();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     //创建数据结点到zk中
-    public  void testCreate() throws Exception{
+    public void testCreate() throws Exception {
         //参数1：要创建的节点的路径 参数2：节点的数据 参数3：节点的权限 参数4：节点类型
-        String nodeCreated=zkClient.create("/idea","hello zk".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+        String nodeCreated = zkClient.create("/idea", "hello zk".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
         //上传的数据可以是任何类型，但是都要转成byte；
     }
 
     //获取子节点
-    public void getChildren() throws Exception{
-        List<String> children=zkClient.getChildren("/",true);
-        for (String child:children){
+    public void getChildren() throws Exception {
+        List<String> children = zkClient.getChildren("/", true);
+        for (String child : children) {
             System.out.println(child);
         }
         Thread.sleep(Long.MAX_VALUE);
     }
 
     //查看状态是否存在
-    public void testExist() throws Exception{
-        Stat stat=zkClient.exists("/idea",false);
-        System.out.println(stat==null?"not exist":"exist");
+    public void testExist() throws Exception {
+        Stat stat = zkClient.exists("/idea", false);
+        System.out.println(stat == null ? "not exist" : "exist");
     }
 
     //获取znode的数据
-    public void getData() throws Exception{
-        byte[] data=zkClient.getData("/idea",false,null);
+    public void getData() throws Exception {
+        byte[] data = zkClient.getData("/idea", false, null);
         System.out.println(new String(data));
     }
 
     //删除znode
-    public void deleteZnode() throws Exception{
+    public void deleteZnode() throws Exception {
         //参数2：指定要删除的版本，-1表示所有版本
-        zkClient.delete("/idea",-1);
+        zkClient.delete("/idea", -1);
     }
 
     //修改znode
-    public void setZnode() throws Exception{
+    public void setZnode() throws Exception {
         //参数2：指定要删除的版本，-1表示所有版本
-        zkClient.setData("/idea","update ".getBytes(),-1);
-        byte[] data=zkClient.getData("/idea",false,null);
+        zkClient.setData("/idea", "update ".getBytes(), -1);
+        byte[] data = zkClient.getData("/idea", false, null);
         System.out.println(new String(data));
     }
 }
