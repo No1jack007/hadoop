@@ -32,7 +32,7 @@ public class MyCountBolt extends BaseRichBolt {
         } else {
             map.put(word, 1);
         }
-        System.out.println(map);
+        System.out.println("结果："+map);
     }
 
     @Override

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class WordCountMain {
 
-//    public static void main(String args[]) {
+//    public static void main(Stri ng args[]) {
     public void test(){
         try {
             //1.准备一个TopologyBuilder
