@@ -1,20 +1,22 @@
-package com.zhang.hadoop.service.kafka;
+package com.zhang.hadoop.testMain;
 
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
-import org.springframework.stereotype.Service;
 
 import java.util.Properties;
 import java.util.UUID;
 
 /**
- * Created by zhang yufei on 2018/12/28.
+ * Created by zhang yufei on 2018/12/29.
  */
-@Service
-public class KafkaProducerService {
+public class KafkaMain {
 
-    public void producer(){
+    public static void main(String[] args) {
+        producerData();
+    }
+
+    private static void producerData() {
         String TOPIC="test01";
         Properties properties=new Properties();
         properties.put("metadata.broker.list","hadoop1:9092");
@@ -35,4 +37,5 @@ public class KafkaProducerService {
         }
         producer.close();
     }
+
 }
