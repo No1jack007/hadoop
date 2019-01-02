@@ -17,8 +17,8 @@ public class KafkaProducerService {
     public void producer(){
         String TOPIC="test01";
         Properties properties=new Properties();
-        properties.put("metadata.broker.list","hadoop1:9092");
         properties.put("serializer.class", "kafka.serializer.StringEncoder");
+        properties.put("metadata.broker.list","hadoop1:9092");
         /*
          * 0 最低延迟，持久性最弱，只发出不管replica是否持久完成
          * 1 速度和持久性适中，leader replica只要有一个接收到数据后，producer会得到一个ack

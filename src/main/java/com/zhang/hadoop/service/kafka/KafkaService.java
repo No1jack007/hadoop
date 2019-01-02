@@ -11,9 +11,12 @@ public class KafkaService {
 
     @Autowired
     private KafkaProducerService kafkaProducerService;
+    @Autowired
+    private KafkaConsumerService kafkaConsumerService;
 
     public void test(){
         kafkaProducerService.producer();
+        kafkaConsumerService.consumer();
     }
 
 
