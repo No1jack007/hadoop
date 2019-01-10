@@ -20,7 +20,8 @@ public class MyKafkaBolt1 extends BaseRichBolt {
 
     @Override
     public void execute(Tuple tuple) {
-        String line=tuple.getString(0);
+//        String line=new String((Byte)tuple.getValue(0));
+        Object object=tuple.getValue(0);
     }
 
     @Override
