@@ -6,7 +6,6 @@ import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
 import kafka.message.MessageAndMetadata;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -63,8 +62,5 @@ public class KafkaConsumerService implements Runnable{
         for(int i=0;i<streams.size();i++){
             executorService.execute(new KafkaConsumerService("消费者"+(i+1),streams.get(i)));
         }
-
     }
-
-
 }
