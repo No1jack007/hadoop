@@ -17,7 +17,7 @@ public class KafkaMain {
     }
 
     private static void producerData() {
-        String TOPIC="test01";
+        String TOPIC="orderMq1";
         Properties properties=new Properties();
         properties.put("metadata.broker.list","hadoop1:9092");
         properties.put("serializer.class", "kafka.serializer.StringEncoder");
@@ -36,6 +36,8 @@ public class KafkaMain {
             producer.send(new KeyedMessage<String,String>(TOPIC,messageNo+"","appid:"+ UUID.randomUUID()+":"+messageStr));
         }
         producer.close();
+//        KafkaAndStormService kafkaAndStormService=new KafkaAndStormService();
+//        kafkaAndStormService.test();
     }
 
 }

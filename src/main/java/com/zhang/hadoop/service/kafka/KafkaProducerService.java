@@ -15,7 +15,7 @@ import java.util.UUID;
 public class KafkaProducerService {
 
     public void producer(){
-        String TOPIC="test01";
+        String TOPIC="orderMq1";
         Properties properties=new Properties();
         properties.put("serializer.class", "kafka.serializer.StringEncoder");
         properties.put("metadata.broker.list","hadoop1:9092");
