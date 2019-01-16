@@ -31,6 +31,7 @@ public class MySplitBolt extends BaseRichBolt {
         for(String word:wordArray){
             outputCollector.emit(new Values(word,1));
         }
+        outputCollector.ack(tuple);
     }
 
     @Override

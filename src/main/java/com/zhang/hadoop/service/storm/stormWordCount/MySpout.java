@@ -19,12 +19,17 @@ public class MySpout extends BaseRichSpout {
     //初始化方法
     @Override
     public void open(Map map, TopologyContext topologyContext, SpoutOutputCollector spoutOutputCollector) {
-        this.spoutOutputCollector=spoutOutputCollector;
+        this.spoutOutputCollector = spoutOutputCollector;
     }
 
     //storm框架while(true)循环调用nextTuple
     @Override
     public void nextTuple() {
+        try {
+            Thread.sleep(1000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         spoutOutputCollector.emit(new Values("i am lilei,love hanmeimei"));
     }
 

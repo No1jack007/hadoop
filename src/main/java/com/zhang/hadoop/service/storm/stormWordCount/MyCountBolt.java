@@ -32,6 +32,7 @@ public class MyCountBolt extends BaseRichBolt {
         } else {
             map.put(word, 1);
         }
+        outputCollector.ack(tuple);
         System.out.println("结果："+map);
     }
 

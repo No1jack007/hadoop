@@ -50,12 +50,12 @@ public class Application {
 
     public static void stormTest(){
         WordCountMain bean=SpringUtil.getBean(WordCountMain.class);
-//        bean.test();
+        bean.test();
     }
 
     public static void kafkaTest(){
         KafkaService bean=SpringUtil.getBean(KafkaService.class);
-        bean.test();
+//        bean.test();
     }
 
 }

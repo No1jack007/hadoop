@@ -14,22 +14,29 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaAndStormService {
 
-    public void test(){
-        TopologyBuilder topologyBuilder=new TopologyBuilder();
-        KafkaSpoutConfig.Builder<String, String> kafkaBuilder = KafkaSpoutConfig.builder("hadoop1:2181", "test01");
-        //设置kafka属于哪个组
-        kafkaBuilder.setGroupId("testgroup1");
-        //创建kafkaspoutConfig
-        KafkaSpoutConfig<String, String> build = kafkaBuilder.build();
-        //通过kafkaspoutConfig获得kafkaspout
-        KafkaSpout<String, String> kafkaSpout = new KafkaSpout<String,String>(build);
-        //设置5个线程接收数据
-        topologyBuilder.setSpout("kafkaSpout",kafkaSpout,1);
-//        topologyBuilder.setSpout("kafkaSpout",new KafkaSpout(new SpoutConfig(new ZkHosts("hadoop1:2181"),"orderMq1","/myKafka","kafkaSpout")),1);
-        topologyBuilder.setBolt("myboltl",new MyKafkaBolt1(),1).localOrShuffleGrouping("kafkaSpout");
-        Config config = new Config();
-        config.setNumWorkers(2);
-        LocalCluster localCluster = new LocalCluster();
-        localCluster.submitTopology("stormKafka", config, topologyBuilder.createTopology());
+    public void test() {
+        try {
+            TopologyBuilder topologyBuilder = new TopologyBuilder();
+            KafkaSpoutConfig.Builder<String, String> kafkaBuilder = KafkaSpoutConfig.builder("hadoop1:2181", "test01");
+            //设置kafka属于哪个组
+            kafkaBuilder.setGroupId("testgroup2");
+            //创建kafkaspoutConfig
+            KafkaSpoutConfig<String, String> build = kafkaBuilder.build();
+            //通过kafkaspoutConfig获得kafkaspout
+            KafkaSpout<String, String> kafkaSpout = new KafkaSpout<String, String>(build);
+            //设置5个线程接收数据
+            topologyBuilder.setSpout("kafkaSpout", kafkaSpout, 1);
+//        topologyBuilder.setSpout("kafkaSpout",new KafkaSpout(new SpoutConfig(new ZkHosts("hadoop1:2181"),"test01","/myKafka","kafkaSpout")),1);
+            topologyBuilder.setBolt("myboltl", new MyKafkaBolt1(), 1).localOrShuffleGrouping("kafkaSpout");
+            Config config = new Config();
+            config.setNumWorkers(2);
+            LocalCluster localCluster = new LocalCluster();
+            localCluster.submitTopology("stormKafka", config, topologyBuilder.createTopology());
+            Thread.sleep(10000);
+            localCluster.killTopology("stormKafka");
+            localCluster.shutdown();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
