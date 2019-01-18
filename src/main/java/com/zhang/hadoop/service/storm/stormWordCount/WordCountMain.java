@@ -1,9 +1,10 @@
 package com.zhang.hadoop.service.storm.stormWordCount;
 
-import org.apache.storm.Config;
-import org.apache.storm.LocalCluster;
-import org.apache.storm.topology.TopologyBuilder;
-import org.apache.storm.tuple.Fields;
+
+import backtype.storm.Config;
+import backtype.storm.LocalCluster;
+import backtype.storm.topology.TopologyBuilder;
+import backtype.storm.tuple.Fields;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,7 +32,7 @@ public class WordCountMain {
             //本地模式
             LocalCluster localCluster = new LocalCluster();
             localCluster.submitTopology("myWordCount", config, topologyBuilder.createTopology());
-            Thread.sleep(10000);
+            Thread.sleep(60000);
             localCluster.killTopology("myWordCount");
             localCluster.shutdown();
         } catch (Exception e) {

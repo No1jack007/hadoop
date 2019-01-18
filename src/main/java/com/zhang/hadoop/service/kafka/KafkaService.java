@@ -19,7 +19,7 @@ public class KafkaService {
     public void test(){
 //        kafkaProducerService.producer();
 //        kafkaConsumerService.consumer();
-        kafkaAndStormService.test();
+//        kafkaAndStormService.test();
     }
 
 
