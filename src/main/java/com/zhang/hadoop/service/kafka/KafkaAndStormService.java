@@ -1,18 +1,16 @@
 package com.zhang.hadoop.service.kafka;
 
-import backtype.storm.Config;
-import backtype.storm.LocalCluster;
-import backtype.storm.topology.TopologyBuilder;
-import backtype.storm.utils.Utils;
+import org.apache.storm.Config;
+import org.apache.storm.Constants;
+import org.apache.storm.LocalCluster;
+import org.apache.storm.StormSubmitter;
+import org.apache.storm.kafka.*;
+import org.apache.storm.kafka.bolt.KafkaBolt;
+import org.apache.storm.spout.SchemeAsMultiScheme;
+import org.apache.storm.topology.TopologyBuilder;
 import org.springframework.stereotype.Service;
-import storm.kafka.BrokerHosts;
-import storm.kafka.KafkaSpout;
-import storm.kafka.SpoutConfig;
-import storm.kafka.ZkHosts;
-import storm.kafka.bolt.KafkaBolt;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by zhang yufei on 2019/1/10.
@@ -21,29 +19,49 @@ import java.util.Map;
 @Service
 public class KafkaAndStormService {
 
-    public static void main(String[] args) {
+    public static void test(String[] args) {
 
-//        BrokerHosts brokerHosts = new ZkHosts("hadoop1:2181", "/brokers");
-//        SpoutConfig spoutConfig = new SpoutConfig(brokerHosts, "test01", "/kafka", "word-count-topology");
-//        Config conf = new Config();
+
+        String zkConnString = "hadoop1:2181";
+        BrokerHosts hosts = new ZkHosts(zkConnString);
+        SpoutConfig spoutConfig = new SpoutConfig(hosts,"test01","/brokers/topics", "spout1");
+        spoutConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
+        // 记录Spout读取进度所用的zookeeper的host,即记录offset位置的zk
+        List<String> servers  = new ArrayList<>();
+        servers.add("hadoop1");
+        spoutConfig.zkServers = servers;
+        spoutConfig.zkPort = 2181;
+        KafkaSpout kafkaSpout = new KafkaSpout(spoutConfig);
+        TopologyBuilder builder = new TopologyBuilder();
+        builder.setSpout("kafkaspout",kafkaSpout);
+        builder.setBolt("myboltl",new MyKafkaBolt1()).shuffleGrouping("kafkaspout");
+        Config config = new Config();
+        config.setDebug(true);
+
+        LocalCluster cluster = new LocalCluster();
+        cluster.submitTopology("stormKafka",config,builder.createTopology());
+
+//        BrokerHosts brokerHosts = new ZkHosts("hadoop1:2181");
+//        SpoutConfig spoutConfig = new SpoutConfig(brokerHosts, "test01", "/brokers", "kafkaSpout");
+//        spoutConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
 //        Properties properties = new Properties();
 //        properties.put("bootstrap.servers", "hadoop1:9092");
 //        properties.put("serializer.class", "kafka.serializer.StringEncoder");
 //        properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 //        properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-//        conf.put("kafka.broker.properties", properties);
-//        conf.put("bootstrap.servers", "hadoop1:9092");
-//        conf.put("topic", "test01");
-//        spoutConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
+//        KafkaBolt kafkaBolt = new KafkaBolt();
+//        kafkaBolt.withProducerProperties(properties);
+//
 //        TopologyBuilder builder = new TopologyBuilder();
-//        builder.setSpout("testGroup", new KafkaSpout(spoutConfig));
-//        builder.setBolt("myboltl", new MyKafkaBolt1()).shuffleGrouping("testGroup");
-////        KafkaBolt kafkaBolt = new KafkaBolt();
-////        kafkaBolt.withProducerProperties(properties);
-////        builder.setBolt("msgKafkaBolt", kafkaBolt).shuffleGrouping(SPLIT_BOLT_ID);
+//        builder.setSpout("kafkaSpout", new KafkaSpout(spoutConfig));
+//        builder.setBolt("msgKafkaBolt", kafkaBolt).shuffleGrouping("kafkaSpout");
+//        builder.setBolt("myboltl", new MyKafkaBolt1()).shuffleGrouping("msgKafkaBolt");
 //        Config config = new Config();
-//        config.setDebug(true);
-//        config.setNumWorkers(2);
+//        config.put("kafka.broker.properties", properties);
+//        config.put("bootstrap.servers", "hadoop1:9092");
+//        config.put("topic", "test01");
+//        config.setDebug(false);
+//        config.setNumWorkers(3);
 //        LocalCluster localCluster = new LocalCluster();
 //        localCluster.submitTopology("stormKafka", config, builder.createTopology());
 //        try {
@@ -51,34 +69,6 @@ public class KafkaAndStormService {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-
-//        TopologyBuilder builder = new TopologyBuilder();
-
-//        builder.setSpout("testGroup", new KafkaSpout("test01"));
-//        builder.setBolt("myboltl", new MyKafkaBolt1()).shuffleGrouping("testGroup");
-//        Config config = new Config();
-//        config.setDebug(true);
-//        if (args != null && args.length > 0) {
-//            // online commit Topology
-//            config.put(Config.NIMBUS_HOST, args[0]);
-//            config.setNumWorkers(3);
-//            try {
-////                StormSubmitter.submitTopologyWithProgressBar(KafkaTopology.class.getSimpleName(), config,builder.createTopology());
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            // Local commit jar
-//            LocalCluster local = new LocalCluster();
-//            local.submitTopology("counter", config, builder.createTopology());
-//            try {
-//                Thread.sleep(60000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-////            local.shutdown();
-//        }
-
 
 //        TopologyBuilder topologyBuilder = new TopologyBuilder();
 //
@@ -120,42 +110,45 @@ public class KafkaAndStormService {
 //        localCluster.killTopology("stormKafka");
 //        localCluster.shutdown();
 
-        BrokerHosts brokerHosts = new ZkHosts("192.168.10.11:2181/brokers");
+//        BrokerHosts brokerHosts = new ZkHosts("192.168.10.11:2181/brokers");
+//
+//        SpoutConfig spoutConfig = new SpoutConfig(brokerHosts, "test01", "/brokers/topics", "kafkaspout");
+//
+//        Config conf = new Config();
+//        Map<String, String> map = new HashMap<String, String>();
+//
+//        map.put("metadata.broker.list", "192.168.10.11:9092");
+//        map.put("serializer.class", "kafka.serializer.StringEncoder");
+//        conf.put("kafka.broker.properties", map);
+//        conf.put("topic", "test01");
+//
+////        spoutConfig.scheme = new SchemeAsMultiScheme(new MessageScheme());
+//
+//        TopologyBuilder builder = new TopologyBuilder();
+//        builder.setSpout("spout", new KafkaSpout(spoutConfig));
+//        builder.setBolt("bolt", new MyKafkaBolt1()).shuffleGrouping("spout");
+//        builder.setBolt("kafkabolt", new KafkaBolt<String, Integer>()).shuffleGrouping("bolt");
+//
+//        if (args != null && args.length > 0) {
+//            //提交到集群运行
+////            try {
+////                StormSubmitter.submitTopology(args[0], conf, builder.createTopology());
+////            } catch (AlreadyAliveException e) {
+////                e.printStackTrace();
+////            } catch (InvalidTopologyException e) {
+////                e.printStackTrace();
+////            }
+//        } else {
+//            //本地模式运行
+//            LocalCluster cluster = new LocalCluster();
+//            cluster.submitTopology("Topotest1121", conf, builder.createTopology());
+//            Utils.sleep(1000000);
+//            cluster.killTopology("Topotest1121");
+//            cluster.shutdown();
+//        }
 
-        SpoutConfig spoutConfig = new SpoutConfig(brokerHosts, "test01", "/brokers/topics", "kafkaspout");
 
-        Config conf = new Config();
-        Map<String, String> map = new HashMap<String, String>();
 
-        map.put("metadata.broker.list", "192.168.10.11:9092");
-        map.put("serializer.class", "kafka.serializer.StringEncoder");
-        conf.put("kafka.broker.properties", map);
-        conf.put("topic", "test01");
-
-//        spoutConfig.scheme = new SchemeAsMultiScheme(new MessageScheme());
-
-        TopologyBuilder builder = new TopologyBuilder();
-        builder.setSpout("spout", new KafkaSpout(spoutConfig));
-        builder.setBolt("bolt", new MyKafkaBolt1()).shuffleGrouping("spout");
-        builder.setBolt("kafkabolt", new KafkaBolt<String, Integer>()).shuffleGrouping("bolt");
-
-        if (args != null && args.length > 0) {
-            //提交到集群运行
-//            try {
-//                StormSubmitter.submitTopology(args[0], conf, builder.createTopology());
-//            } catch (AlreadyAliveException e) {
-//                e.printStackTrace();
-//            } catch (InvalidTopologyException e) {
-//                e.printStackTrace();
-//            }
-        } else {
-            //本地模式运行
-            LocalCluster cluster = new LocalCluster();
-            cluster.submitTopology("Topotest1121", conf, builder.createTopology());
-            Utils.sleep(1000000);
-            cluster.killTopology("Topotest1121");
-            cluster.shutdown();
-        }
 
     }
 }

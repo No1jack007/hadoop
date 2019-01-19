@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import jodd.json.JsonSerializer;
-import sun.misc.BASE64Encoder;
+//import sun.misc.BASE64Encoder;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
@@ -66,8 +66,8 @@ public class HttpUtil {
             SecretKey secretKey = kgen.generateKey();
             byte[] enCodeFormat = secretKey.getEncoded();
             SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
-            BASE64Encoder coder = new BASE64Encoder();
-            coder.encode(enCodeFormat);
+//            BASE64Encoder coder = new BASE64Encoder();
+//            coder.encode(enCodeFormat);
             Cipher cipher = Cipher.getInstance("AES");
             byte[] byteContent = content.getBytes("utf-8");
             cipher.init(1, key);

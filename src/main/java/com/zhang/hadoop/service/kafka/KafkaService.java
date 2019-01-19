@@ -17,7 +17,7 @@ public class KafkaService {
     private KafkaAndStormService kafkaAndStormService;
 
     public void test(){
-//        kafkaProducerService.producer();
+        kafkaProducerService.producer();
 //        kafkaConsumerService.consumer();
 //        kafkaAndStormService.test();
     }

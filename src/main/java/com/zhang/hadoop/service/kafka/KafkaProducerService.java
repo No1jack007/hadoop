@@ -33,6 +33,7 @@ public class KafkaProducerService {
             String messageStr=new String (messageNo+":zhang yufei");
             producer.send(new KeyedMessage<String,String>(TOPIC,messageNo+"","appid:"+ UUID.randomUUID()+":"+messageStr));
         }
+        System.out.println("数据生产完成");
         producer.close();
     }
 }
