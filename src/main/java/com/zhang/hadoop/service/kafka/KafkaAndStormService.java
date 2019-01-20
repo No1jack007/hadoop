@@ -36,8 +36,7 @@ public class KafkaAndStormService {
         builder.setSpout("kafkaspout",kafkaSpout);
         builder.setBolt("myboltl",new MyKafkaBolt1()).shuffleGrouping("kafkaspout");
         Config config = new Config();
-        config.setDebug(true);
-
+//        config.setDebug(true);
         LocalCluster cluster = new LocalCluster();
         cluster.submitTopology("stormKafka",config,builder.createTopology());
 
