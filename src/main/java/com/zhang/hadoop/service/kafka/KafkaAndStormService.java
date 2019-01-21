@@ -1,16 +1,19 @@
 package com.zhang.hadoop.service.kafka;
 
 import org.apache.storm.Config;
-import org.apache.storm.Constants;
 import org.apache.storm.LocalCluster;
 import org.apache.storm.StormSubmitter;
+import org.apache.storm.generated.AlreadyAliveException;
+import org.apache.storm.generated.AuthorizationException;
+import org.apache.storm.generated.InvalidTopologyException;
 import org.apache.storm.kafka.*;
-import org.apache.storm.kafka.bolt.KafkaBolt;
 import org.apache.storm.spout.SchemeAsMultiScheme;
 import org.apache.storm.topology.TopologyBuilder;
+import org.apache.storm.utils.Utils;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhang yufei on 2019/1/10.
@@ -36,9 +39,27 @@ public class KafkaAndStormService {
         builder.setSpout("kafkaspout",kafkaSpout);
         builder.setBolt("myboltl",new MyKafkaBolt1()).shuffleGrouping("kafkaspout");
         Config config = new Config();
-//        config.setDebug(true);
-        LocalCluster cluster = new LocalCluster();
-        cluster.submitTopology("stormKafka",config,builder.createTopology());
+        config.setDebug(true);
+        if (args != null && args.length > 0) {
+//            提交到集群运行
+            try {
+                StormSubmitter.submitTopology(args[0], config, builder.createTopology());
+            } catch (AlreadyAliveException e) {
+                e.printStackTrace();
+            } catch (InvalidTopologyException e) {
+                e.printStackTrace();
+            } catch (AuthorizationException e) {
+                e.printStackTrace();
+            }
+        } else {
+            //本地模式运行
+            LocalCluster cluster = new LocalCluster();
+            cluster.submitTopology("stormKafka",config,builder.createTopology());
+            Utils.sleep(2*60*1000);
+            cluster.killTopology("Topotest1121");
+            cluster.shutdown();
+        }
+
 
 //        BrokerHosts brokerHosts = new ZkHosts("hadoop1:2181");
 //        SpoutConfig spoutConfig = new SpoutConfig(brokerHosts, "test01", "/brokers", "kafkaSpout");
@@ -108,43 +129,6 @@ public class KafkaAndStormService {
 //        }
 //        localCluster.killTopology("stormKafka");
 //        localCluster.shutdown();
-
-//        BrokerHosts brokerHosts = new ZkHosts("192.168.10.11:2181/brokers");
-//
-//        SpoutConfig spoutConfig = new SpoutConfig(brokerHosts, "test01", "/brokers/topics", "kafkaspout");
-//
-//        Config conf = new Config();
-//        Map<String, String> map = new HashMap<String, String>();
-//
-//        map.put("metadata.broker.list", "192.168.10.11:9092");
-//        map.put("serializer.class", "kafka.serializer.StringEncoder");
-//        conf.put("kafka.broker.properties", map);
-//        conf.put("topic", "test01");
-//
-////        spoutConfig.scheme = new SchemeAsMultiScheme(new MessageScheme());
-//
-//        TopologyBuilder builder = new TopologyBuilder();
-//        builder.setSpout("spout", new KafkaSpout(spoutConfig));
-//        builder.setBolt("bolt", new MyKafkaBolt1()).shuffleGrouping("spout");
-//        builder.setBolt("kafkabolt", new KafkaBolt<String, Integer>()).shuffleGrouping("bolt");
-//
-//        if (args != null && args.length > 0) {
-//            //提交到集群运行
-////            try {
-////                StormSubmitter.submitTopology(args[0], conf, builder.createTopology());
-////            } catch (AlreadyAliveException e) {
-////                e.printStackTrace();
-////            } catch (InvalidTopologyException e) {
-////                e.printStackTrace();
-////            }
-//        } else {
-//            //本地模式运行
-//            LocalCluster cluster = new LocalCluster();
-//            cluster.submitTopology("Topotest1121", conf, builder.createTopology());
-//            Utils.sleep(1000000);
-//            cluster.killTopology("Topotest1121");
-//            cluster.shutdown();
-//        }
 
 
 
