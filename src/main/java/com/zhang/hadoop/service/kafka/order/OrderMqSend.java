@@ -22,7 +22,7 @@ public class OrderMqSend {
         Producer<String,String> producer=new Producer<String, String>(new ProducerConfig(properties));
         for(int messageNo=1;messageNo<100;messageNo++){
             String messageStr=new String (messageNo+":zhang yufei");
-            producer.send(new KeyedMessage<String,String>(TOPIC,messageNo+"","appid:"+ UUID.randomUUID()+":"+messageStr));
+            producer.send(new KeyedMessage<String,String>(TOPIC,messageNo+"",new OrderInfo().random()));
         }
         System.out.println("数据生产完成");
         producer.close();

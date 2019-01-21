@@ -1,6 +1,7 @@
 package com.zhang.hadoop.testMain;
 
 import com.zhang.hadoop.service.kafka.KafkaAndStormService;
+import com.zhang.hadoop.service.redis.JedisUtil;
 import com.zhang.hadoop.service.storm.stormWordCount.WordCountMain;
 
 /**
@@ -12,6 +13,10 @@ public class TestMain {
         WordCountMain wordCountMain=new WordCountMain();
 //        wordCountMain.test();
         KafkaAndStormService kafkaAndStormService=new KafkaAndStormService();
-        kafkaAndStormService.test(args);
+//        kafkaAndStormService.test(args);
+//        JedisUtil jedisUtil = JedisUtil.getInstance();
+//        JedisUtil.Strings strings = jedisUtil.new Strings();
+//        strings.set("nnn", "nnnn");
+//        System.out.println("-----" + strings.get("nnn"));
     }
 }
