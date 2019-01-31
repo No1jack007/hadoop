@@ -2,12 +2,12 @@ package com.zhang.hadoop.testMain;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zhang.hadoop.util.BASE64Encoder;
 import com.zhang.hadoop.util.Base64;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import jodd.json.JsonSerializer;
 import org.springframework.util.StringUtils;
-import sun.misc.BASE64Encoder;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;

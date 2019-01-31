@@ -120,11 +120,11 @@
         </dependency>
 
         <!--scala-->
-        <!--<dependency>-->
-        <!--<groupId>org.scala-lang</groupId>-->
-        <!--<artifactId>scala-library</artifactId>-->
-        <!--<version>${scala.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+        <groupId>org.scala-lang</groupId>
+        <artifactId>scala-library</artifactId>
+        <version>${scala.version}</version>
+        </dependency>
 
         <!-- spark -->
         <!--<dependency>-->
@@ -410,6 +410,11 @@
             See https://github.com/apache/curator/tree/6ba4de36d4e8b2b65d45c005a6a92dd85c3c497f/curator-test-zk34-->
             <version>${curator-test.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>mchange-commons-java</artifactId>
+            <version>0.2.11</version>
         </dependency>
 
 
