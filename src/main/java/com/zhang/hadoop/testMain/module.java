@@ -43,7 +43,7 @@ public class module {
         long start = System.currentTimeMillis();
 
         //1.主机厂车辆生产
-        createVehiclePack();
+        //createVehiclePack();
         //2.电池厂电池生产
         //createBatteryPack();
         //3.主机厂车辆销售
@@ -69,10 +69,13 @@ public class module {
         //13.电池厂电池退役
         //createRetireFactory();
 
-        test();
+//        test();
 
         //getBatteryIsImport();
         //getBatteryIsBindingsVIN();
+
+        String vehicle=encrypt("vehicle","0162ae481a7f411e86b1eadf5cc838eb");
+        System.out.println(vehicle);
 
         long end = System.currentTimeMillis();
         System.out.println("完成" + (end - start));
