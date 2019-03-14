@@ -173,6 +173,12 @@
             <version>${hbase.version}</version>
         </dependency>
 
+        <!--<dependency>-->
+            <!--<groupId>org.apache.hadoop</groupId>-->
+            <!--<artifactId>hadoop-auth</artifactId>-->
+            <!--<version>2.2.0</version>-->
+        <!--</dependency>-->
+
         <!--springData hadoop-->
         <dependency>
             <groupId>org.springframework.data</groupId>
