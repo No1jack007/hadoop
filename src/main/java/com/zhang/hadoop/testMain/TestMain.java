@@ -36,5 +36,9 @@ public class TestMain {
 //        data.put("code","2");
 //        data.put("cell","123123");
 //        hBaseUtil.insertOneRecord("test_table",data.get("code").toString(),"family1","cell",data.get("cell").toString());
+
+        String date="2018.10";
+        String a1[]=date.split("\\.");
+        System.out.println(a1[0]+"\t"+a1[1]);
     }
 }

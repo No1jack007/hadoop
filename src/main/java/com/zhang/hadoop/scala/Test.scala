@@ -18,6 +18,11 @@ object Test {
     val r = m1(3, 4)
     println(r)
     print(f1(1,2))
+
+    val pair = (99, "Luftballons")
+    println(pair._1)
+    println(pair._2)
+
   }
 
   def m1(a: Int, b: Int) = {
