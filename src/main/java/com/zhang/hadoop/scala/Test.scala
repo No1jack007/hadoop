@@ -29,6 +29,13 @@ object Test {
     lb(1)=200
     println(lb(1))
     println(lb.map(_*10))
+
+    println("map,filter")
+    val list2=lb.map(_*10)
+    val list3=list2.filter(x=>x%2==0)
+    println(list3)
+
+
     //拼接list
     println(0::list)
     print(f1(1,2))
