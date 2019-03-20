@@ -1,5 +1,7 @@
 package com.zhang.hadoop.scala
 
+import scala.collection.mutable.ListBuffer
+
 /**
   * Created by zhang yufei on 2019/3/3.
   */
@@ -17,7 +19,18 @@ object Test {
     println(m1(2, 3))
     val r = m1(3, 4)
     println(r)
-    print(f1(1,2))
+    println(f1(1,2))
+
+    val list=List(1,2,3)
+    println("list")
+    println(list(0))
+    //可变list
+    val lb=ListBuffer(1,2,3)
+    lb(1)=200
+    println(lb(1))
+    println(lb.map(_*10))
+    //拼接list
+    println(0::list)
   }
 
   def m1(a: Int, b: Int) = {
