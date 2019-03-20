@@ -25,20 +25,21 @@ public class HBaseService {
     private Connection connection;
     private Table table;
 
-    @Autowired
-    public HbaseTemplate hbaseTemplate() {
-        HbaseTemplate hbaseTemplate = new HbaseTemplate();
-        org.apache.hadoop.conf.Configuration conf = HBaseConfiguration.create();
-        conf.set("hbase.zookeeper.quorum", "hadoop1");
-        conf.set("hbase.zookeeper.port", "2181");
-        hbaseTemplate.setConfiguration(conf);
-        hbaseTemplate.setAutoFlush(true);
-        return hbaseTemplate;
-    }
+//    @Autowired
+//    public HbaseTemplate hbaseTemplate() {
+//        HbaseTemplate hbaseTemplate = new HbaseTemplate();
+//        org.apache.hadoop.conf.Configuration conf = HBaseConfiguration.create();
+//        conf.set("hbase.zookeeper.quorum", "hadoop1");
+//        conf.set("hbase.zookeeper.port", "2181");
+//        hbaseTemplate.setConfiguration(conf);
+//        hbaseTemplate.setAutoFlush(true);
+//        return hbaseTemplate;
+//    }
 
     public void init() throws Exception {
         configuration = HBaseConfiguration.create();
         configuration.set("hbase.zookeeper.quorum", "hadoop1");
+//        configuration.set("hbase.zookeeper.quorum", "hadoop1");
         configuration.set("hbase.zookeeper.property.clientPort", "2181");
         connection = ConnectionFactory.createConnection(configuration);
     }
@@ -50,15 +51,20 @@ public class HBaseService {
 
     public void test() {
         try {
-            this.init();
-//            insert();
+//            this.init();
+            insert();
 //            deleteData();
 //            queryData();
 //            scanData();
 //            singleColumnValueFilter();
 //            columnPrefixFilter();
 //            rowKeyFilter();
-            filterList();
+//            filterList();
+//            table = connection.getTable(TableName.valueOf("test_table"));
+//            Put put = new Put(Bytes.toBytes("2"));
+//            put.addColumn(Bytes.toBytes("family1"), Bytes.toBytes("name"), Bytes.toBytes("zhangyufei"));
+//            table.put(put);
+//            table.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -67,7 +73,7 @@ public class HBaseService {
     public void insert() throws Exception {
         this.init();
         table = connection.getTable(TableName.valueOf("user"));
-        Put put = new Put(Bytes.toBytes("2"));
+        Put put = new Put(Bytes.toBytes("1"));
         put.addColumn(Bytes.toBytes("info1"), Bytes.toBytes("name"), Bytes.toBytes("zhangyufei"));
         put.addColumn(Bytes.toBytes("info1"), Bytes.toBytes("age"), Bytes.toBytes("23"));
         put.addColumn(Bytes.toBytes("info2"), Bytes.toBytes("like"), Bytes.toBytes("niehuichao"));

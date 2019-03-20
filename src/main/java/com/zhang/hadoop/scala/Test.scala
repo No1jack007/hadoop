@@ -31,6 +31,12 @@ object Test {
     println(lb.map(_*10))
     //拼接list
     println(0::list)
+    print(f1(1,2))
+
+    val pair = (99, "Luftballons")
+    println(pair._1)
+    println(pair._2)
+
   }
 
   def m1(a: Int, b: Int) = {
