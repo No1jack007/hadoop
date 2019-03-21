@@ -9,6 +9,7 @@ object Test {
 
   def main(args: Array[String]) {
     println("Hello, world!") // 输出 Hello World
+    println(1/0.0)
     for (i <- 1 to 3) {
       println(i);
     }
@@ -53,6 +54,16 @@ object Test {
     println(list1.+:(0))
     println(list1:+0)
     println(list1)
+    println(list1 ::: list1)
+    println(list1.::(7))
+
+    println("group")
+    val list4=list1.grouped(2)
+    println(list4)
+    for(i<-list4){
+      println(i)
+    }
+    println(list4.toList)
   }
 
   def m1(a: Int, b: Int) = {
