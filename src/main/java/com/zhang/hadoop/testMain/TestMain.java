@@ -1,14 +1,5 @@
 package com.zhang.hadoop.testMain;
 
-import com.zhang.hadoop.batteryService.service.ModuleService;
-import com.zhang.hadoop.service.kafka.KafkaAndStormService;
-import com.zhang.hadoop.service.redis.JedisUtil;
-import com.zhang.hadoop.service.storm.stormWordCount.WordCountMain;
-import com.zhang.hadoop.util.HBaseUtil;
-import com.zhang.hadoop.util.SpringUtil;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by zhang yufei on 2019/1/17.

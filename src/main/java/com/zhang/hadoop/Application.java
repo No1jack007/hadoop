@@ -64,7 +64,7 @@ public class Application {
         Map<String,Object> map=new HashMap<>();
         map.put("code","4");
         map.put("cell","zhang zhang zhang");
-        bean.insertOneModule(map);
+//        bean.insertOneModule(map);
     }
 
 }
