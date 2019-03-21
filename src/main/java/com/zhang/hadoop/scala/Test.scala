@@ -23,6 +23,15 @@ object Test {
     println(pair._1)
     println(pair._2)
 
+
+    println("list")
+    var list1=List(1,2,3,4,5)
+    println(0::list1)
+    println(list1.::(0))
+    println(0+:list1)
+    println(list1.+:(0))
+    println(list1:+0)
+    println(list1)
   }
 
   def m1(a: Int, b: Int) = {
