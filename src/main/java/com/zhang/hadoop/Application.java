@@ -62,9 +62,9 @@ public class Application {
     public static void hbaseUtilTest(){
         ModuleService bean=SpringUtil.getBean(ModuleService.class);
         Map<String,Object> map=new HashMap<>();
-        map.put("code","4");
+        map.put("code","5");
         map.put("cell","zhang zhang zhang");
-//        bean.insertOneModule(map);
+        bean.insertOneModule(map);
     }
 
 }
