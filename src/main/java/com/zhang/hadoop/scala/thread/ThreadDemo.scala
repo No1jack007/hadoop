@@ -18,20 +18,20 @@ object ThreadDemo {
         }
       })
     }
-    val f:Future[Int]=pool.submit(new Callable[Int] {
+    val f: Future[Int] = pool.submit(new Callable[Int] {
       override def call(): Int = {
         Thread.sleep(30000)
         100
       }
     })
-    var status=f.isDone
-    println("task status:"+status)
-    if(!status){
+    var status = f.isDone
+    println("task status:" + status)
+    if (!status) {
       Thread.sleep(15000)
     }
-    status=f.isDone
-    println("task status:"+status)
-    if(status){
+    status = f.isDone
+    println("task status:" + status)
+    if (status) {
       println(f.get())
     }
   }
