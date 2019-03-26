@@ -24,10 +24,15 @@ object ThreadDemo {
         100
       }
     })
-    val status=f.isDone
-    println("task status:"+f.isDone)
+    var status=f.isDone
+    println("task status:"+status)
     if(!status){
       Thread.sleep(15000)
+    }
+    status=f.isDone
+    println("task status:"+status)
+    if(status){
+      println(f.get())
     }
   }
 
