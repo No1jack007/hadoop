@@ -16,6 +16,10 @@ class Master extends Actor{
   override def receive: Receive = {
     case "connect"=>{
       println("a client connected")
+      sender ! "reply"
+    }
+    case "hello"=>{
+      println("hello")
     }
   }
 }
@@ -37,6 +41,6 @@ object Master{
     //创建Actor
     val master=actorSystem.actorOf(Props(new Master),"Master")
     master !"hello"
-    actorSystem.terminate()
+//    actorSystem.terminate()
   }
 }
