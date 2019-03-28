@@ -17,6 +17,9 @@ class Worker(val masterHost: String, val masterPort: String) extends Actor {
     case "reply" => {
       println("a reply from master")
     }
+    case "connect"=>{
+      println("a client connected Worker")
+    }
   }
 }
 
@@ -34,8 +37,9 @@ object Worker {
     val config = ConfigFactory.parseString(configStr)
     //ActorSystem老大，负责创建和监控下面的Actor，他是单例的
     val actorSystem = ActorSystem("WorkerSystem", config)
-    actorSystem.actorOf(Props(new Worker("127.0.0.1", "8888")), "Worker")
-    actorSystem.terminate()
+    val worker=actorSystem.actorOf(Props(new Worker("127.0.0.1", "8888")), "Worker")
+    worker ! "connect"
+//    actorSystem.terminate()
 
   }
 }
