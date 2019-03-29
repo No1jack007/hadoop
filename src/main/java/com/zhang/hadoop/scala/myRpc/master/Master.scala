@@ -2,11 +2,16 @@ package com.zhang.hadoop.scala.myRpc.master
 
 import akka.actor.{Actor, ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
+import com.zhang.hadoop.scala.myRpc.worker.RegisterWorker
+
+import scala.collection.mutable
 
 
 class Master extends Actor{
 
   println("constructor invoked")
+
+  val idToWorker=new mutable.HashMap[String,WorkerInfo]()
 
   override def preStart(): Unit = {
     println("preStart invoked")
@@ -20,6 +25,12 @@ class Master extends Actor{
     }
     case "hello"=>{
       println("hello")
+    }
+    case RegisterWorker(id,memory,cores)=>{
+      if(!idToWorker.contains(id)){
+        val workerInfo=new WorkerInfo(id,memory,cores)
+        idToWorker(id)=workerInfo
+      }
     }
   }
 }
