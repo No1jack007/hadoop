@@ -1,3 +1,5 @@
+package com.zhang.hadoop.scala.base
+
 /**
   * Created by zhang yufei on 2019/1/31.
   */
@@ -7,4 +9,3 @@ object  HelloSpark {
     print("zhang yu fei")
   }
 }
-

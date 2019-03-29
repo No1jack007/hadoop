@@ -1,4 +1,4 @@
-package com.zhang.hadoop.scala
+package com.zhang.hadoop.scala.base
 
 class Chinese extends Animal {
   override def run(): Unit ={
