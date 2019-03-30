@@ -13,7 +13,7 @@ class Worker(val masterHost: String, val masterPort: String, val memeory: Int, v
 
   var master: ActorSelection = _
   val workerId = UUID.randomUUID().toString
-  val CHECK_INTERVAL=10000
+  val HEART_INTERVAL=10000
 
   //建立连接
   override def preStart(): Unit = {
@@ -34,7 +34,8 @@ class Worker(val masterHost: String, val masterPort: String, val memeory: Int, v
       //启动定时器发送心跳
       try {
 //        context.system.scheduler.scheduleOnce(5 seconds, self, "123")
-        context.system.scheduler.schedule(1 millis, CHECK_INTERVAL millis, self, SendHeratBeat)(ExecutionContext.fromExecutor(Executors.newFixedThreadPool(1)),self)
+        import context.dispatcher
+        context.system.scheduler.schedule(1 millis, HEART_INTERVAL millis, self, SendHeratBeat)/*(ExecutionContext.fromExecutor(Executors.newFixedThreadPool(1)),self)*/
       }catch {
           case ex: Exception =>{
             println(ex)

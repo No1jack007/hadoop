@@ -2,20 +2,23 @@ package com.zhang.hadoop.scala.myRpc.master
 
 import akka.actor.{Actor, ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
-import com.zhang.hadoop.scala.myRpc.worker.{Heartbeat, RegisterWorker, RegisteredWorker}
+import com.zhang.hadoop.scala.myRpc.worker.{CheckTimeWorker, Heartbeat, RegisterWorker, RegisteredWorker}
 
 import scala.collection.mutable
+import scala.concurrent.duration._
 
 
-class Master(val host:String,val port:Int) extends Actor {
+class Master(val host: String, val port: Int) extends Actor {
 
   println("constructor invoked")
 
   val idToWorker = new mutable.HashMap[String, WorkerInfo]()
   val wokers = new mutable.HashSet[WorkerInfo]()
+  val CHECK_INTERVAL = 10000
 
   override def preStart(): Unit = {
     println("preStart invoked")
+    context.system.scheduler.schedule(0 millis, CHECK_INTERVAL millis, self, CheckTimeWorker)
   }
 
   //用于接收消息
@@ -37,12 +40,18 @@ class Master(val host:String,val port:Int) extends Actor {
         sender ! RegisteredWorker(s"akka.tcp://MasterSystem@$host:$port/user/Master")
       }
     }
-    case Heartbeat(id)=>{
-      if(idToWorker.contains(id)){
+    case Heartbeat(id) => {
+      if (idToWorker.contains(id)) {
         println("已连接成功")
-        val wokerInfo=idToWorker(id)
-
+        val wokerInfo = idToWorker(id)
+        val currentTime = System.currentTimeMillis()
+        wokerInfo.lastHeartbeatTime = currentTime
       }
+    }
+    case CheckTimeWorker => {
+      val curreentTime=System.currentTimeMillis()
+      val toRemove=wokers.filter(x=>curreentTime-x.lastHeartbeatTime>CHECK_INTERVAL)
+
     }
   }
 }
@@ -62,7 +71,7 @@ object Master {
     //ActorSystem老大，负责创建和监控下面的Actor，他是单例的
     val actorSystem = ActorSystem("MasterSystem", config)
     //创建Actor
-    val master = actorSystem.actorOf(Props(new Master(host,port)), "Master")
+    val master = actorSystem.actorOf(Props(new Master(host, port)), "Master")
     master ! "hello"
     //actorSystem.terminate()
   }
