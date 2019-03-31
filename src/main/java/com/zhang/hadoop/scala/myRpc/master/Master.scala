@@ -18,6 +18,8 @@ class Master(val host: String, val port: Int) extends Actor {
 
   override def preStart(): Unit = {
     println("preStart invoked")
+    //导入隐式转换
+    import context.dispatcher
     context.system.scheduler.schedule(0 millis, CHECK_INTERVAL millis, self, CheckTimeWorker)
   }
 
@@ -49,9 +51,13 @@ class Master(val host: String, val port: Int) extends Actor {
       }
     }
     case CheckTimeWorker => {
-      val curreentTime=System.currentTimeMillis()
-      val toRemove=wokers.filter(x=>curreentTime-x.lastHeartbeatTime>CHECK_INTERVAL)
-
+      val curreentTime = System.currentTimeMillis()
+      val toRemove = wokers.filter(x => curreentTime - x.lastHeartbeatTime > CHECK_INTERVAL)
+      for (w <- toRemove) {
+        wokers -= w
+        idToWorker -= w.id
+      }
+      println(wokers.size)
     }
   }
 }

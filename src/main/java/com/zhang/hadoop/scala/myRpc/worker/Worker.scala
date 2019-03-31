@@ -33,9 +33,9 @@ class Worker(val masterHost: String, val masterPort: String, val memeory: Int, v
       println(masterUrl)
       //启动定时器发送心跳
       try {
-//        context.system.scheduler.scheduleOnce(5 seconds, self, "123")
+//        context.system.scheduler.schedule(1 millis, HEART_INTERVAL millis, self, SendHeratBeat)(ExecutionContext.fromExecutor(Executors.newFixedThreadPool(1)),self)
         import context.dispatcher
-        context.system.scheduler.schedule(1 millis, HEART_INTERVAL millis, self, SendHeratBeat)/*(ExecutionContext.fromExecutor(Executors.newFixedThreadPool(1)),self)*/
+        context.system.scheduler.schedule(1 millis, HEART_INTERVAL millis, self, SendHeratBeat)
       }catch {
           case ex: Exception =>{
             println(ex)
@@ -43,6 +43,7 @@ class Worker(val masterHost: String, val masterPort: String, val memeory: Int, v
       }
     }
     case SendHeratBeat=>{
+      println("send heartbeat to master")
       master ! Heartbeat(workerId)
     }
   }
