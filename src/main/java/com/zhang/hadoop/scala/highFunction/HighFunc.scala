@@ -14,9 +14,15 @@ object HighFunc {
     x*x
   }
 
+  def klh(x:Int)(y:Int)=x*y
+
   def main(args: Array[String]): Unit = {
     val arr = Array(1, 2, 3, 4, 5)
-    val a1=arr.map(func)
+    val a1=arr.map(multiply)
     println(a1.toBuffer)
+    val a=klh(3)(4)
+    println(a)
+    println(multiply(2))
+    println(klh(3)(4))
   }
 }
