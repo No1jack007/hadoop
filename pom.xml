@@ -8,15 +8,15 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <!--<module>all</module>-->
-        <!--<module>base</module>-->
-        <!--<module>hadoopBase</module>-->
-        <!--<module>hbase</module>-->
-        <!--<module>kafka</module>-->
-        <!--<module>scala</module>-->
+        <module>all</module>
+        <module>base</module>
+        <module>hadoopBase</module>
+        <module>hbase</module>
+        <module>kafka</module>
+        <module>scala</module>
         <module>spark</module>
-        <!--<module>storm</module>-->
-        <!--<module>zookeeper</module>-->
+        <module>storm</module>
+        <module>zookeeper</module>
 
     </modules>
 
@@ -53,21 +53,21 @@
     <build>
         <!--<sourceDirectory>src/main/java</sourceDirectory>-->
         <plugins>
-            <!--<plugin>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-            <!--<configuration>-->
-            <!--<mainClass>com.zhang.hadoop.Application</mainClass>-->
-            <!--<jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>-->
-            <!--</configuration>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<goals>-->
-            <!--<goal>repackage</goal> &lt;!&ndash;将依赖的jar包打到一起&ndash;&gt;-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.zhang.hadoop.Application</mainClass>
+                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal> <!--将依赖的jar包打到一起-->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
             <!--main方法jar包-->
             <!--<plugin>-->
@@ -106,49 +106,6 @@
             <!--</executions>-->
             <!--</plugin>-->
 
-            <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
-                <version>2.15.2</version>
-                <executions>
-                    <execution>
-                        <id>scala-compile</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <!--includes是一个数组，包含要编译的code-->
-                            <includes>
-                                <include>**/*.scala</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>scala-test-compile</id>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
 
         </plugins>
 
