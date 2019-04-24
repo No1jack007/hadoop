@@ -1,4 +1,4 @@
-package com.zhang.hadoop.service.hdfs.myHDFS;
+package com.zhang.hadoop.spark.hdfs.myHDFS;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.ipc.RPC;

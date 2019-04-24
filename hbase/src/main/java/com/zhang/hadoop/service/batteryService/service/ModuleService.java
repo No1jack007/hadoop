@@ -1,4 +1,4 @@
-package com.zhang.hadoop.service.batteryService.service;
+package com.zhang.hadoop.spark.batteryService.service;
 
 import com.zhang.hadoop.util.HBaseUtil;
 import org.springframework.beans.factory.annotation.Autowired;

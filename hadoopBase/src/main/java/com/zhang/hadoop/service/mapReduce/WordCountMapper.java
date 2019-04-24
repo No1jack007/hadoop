@@ -1,4 +1,4 @@
-package com.zhang.hadoop.service.mapReduce;
+package com.zhang.hadoop.spark.mapReduce;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;

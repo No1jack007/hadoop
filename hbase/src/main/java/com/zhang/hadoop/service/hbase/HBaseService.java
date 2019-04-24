@@ -1,4 +1,4 @@
-package com.zhang.hadoop.service.hbase;
+package com.zhang.hadoop.spark.hbase;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.CompareOperator;

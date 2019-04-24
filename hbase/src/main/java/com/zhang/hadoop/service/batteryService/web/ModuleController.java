@@ -1,4 +1,4 @@
-package com.zhang.hadoop.service.batteryService.web;
+package com.zhang.hadoop.spark.batteryService.web;
 
 /**
  * @author: zhang yufei

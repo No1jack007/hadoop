@@ -1,4 +1,4 @@
-package com.zhang.hadoop.service
+package com.zhang.hadoop.spark
 
 import org.apache.spark.{SparkConf, SparkContext}
 

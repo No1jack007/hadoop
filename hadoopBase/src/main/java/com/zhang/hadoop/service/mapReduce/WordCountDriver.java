@@ -1,4 +1,4 @@
-package com.zhang.hadoop.service.mapReduce;
+package com.zhang.hadoop.spark.mapReduce;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;

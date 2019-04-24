@@ -1,6 +1,6 @@
 package com.zhang.hadoop;
 
-import com.zhang.hadoop.service.hbase.HBaseService;
+import com.zhang.hadoop.spark.hbase.HBaseService;
 import com.zhang.hadoop.util.SpringUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,8 +31,8 @@ public class Application {
     }
 
     public static void hBaseTest() {
-//        HBaseService bean= SpringUtil.getBean(HBaseService.class);
-//        bean.test();
+        HBaseService bean= SpringUtil.getBean(HBaseService.class);
+        bean.test();
     }
 
     public static void zookeeperTest() {

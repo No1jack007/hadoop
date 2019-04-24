@@ -1,4 +1,4 @@
-package com.zhang.hadoop.service.hbase;
+package com.zhang.hadoop.spark.hbase;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

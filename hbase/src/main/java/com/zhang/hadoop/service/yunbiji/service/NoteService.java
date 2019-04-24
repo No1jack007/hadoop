@@ -1,8 +1,8 @@
-package com.zhang.hadoop.service.yunbiji.service;
+package com.zhang.hadoop.spark.yunbiji.service;
 
-import com.zhang.hadoop.service.hbase.HBaseService;
+import com.zhang.hadoop.spark.hbase.HBaseService;
 import com.zhang.hadoop.redis.RedisService;
-import com.zhang.hadoop.service.yunbiji.constants.Constants;
+import com.zhang.hadoop.spark.yunbiji.constants.Constants;
 import jodd.json.JsonSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

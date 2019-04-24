@@ -1,4 +1,4 @@
-package com.zhang.hadoop.service.hdfs.myHDFS;
+package com.zhang.hadoop.spark.hdfs.myHDFS;
 
 /**
  * Created by zhang yufei on 2018/8/19.
