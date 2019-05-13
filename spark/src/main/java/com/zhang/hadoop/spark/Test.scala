@@ -7,6 +7,7 @@ object Test {
   def main(args: Array[String]): Unit = {
 
     System.setProperty("hadoop.home.dir", "D:\\0-program\\program\\hadoop-2.6.5")
+    System.setProperty("hadoop.home.dir", "C:\\zhang\\work\\hadoop-2.6.5")
 
     val conf = new SparkConf
     conf.setAppName("wordCount")
