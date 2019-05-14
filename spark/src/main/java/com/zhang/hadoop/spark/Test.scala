@@ -7,7 +7,7 @@ object Test {
   def main(args: Array[String]): Unit = {
 
     System.setProperty("hadoop.home.dir", "D:\\0-program\\program\\hadoop-2.6.5")
-    System.setProperty("hadoop.home.dir", "C:\\zhang\\work\\hadoop-2.6.5")
+    //    System.setProperty("hadoop.home.dir", "C:\\zhang\\work\\hadoop-2.6.5")
 
     val conf = new SparkConf
     conf.setAppName("wordCount")
@@ -15,14 +15,26 @@ object Test {
 
     val sc = new SparkContext(conf)
 
-    val rdd=sc.parallelize(List(1,2,3,4,5,6,7),2)
+    val rdd = sc.parallelize(List(1, 2, 3, 4, 5, 6, 7), 2)
 
-    rdd.mapPartitionsWithIndex()
+    val result1 = rdd.mapPartitionsWithIndex(func1).collect()
+    println(result1.toBuffer)
 
-
+    val result2 = rdd.mapPartitions(func2).collect();
+    println(result2.toBuffer)
   }
 
-  def func(index:Int,iter:Iterator[(Int)]):Iterator[String]={
-    iter.toList.map(x=>"[partId:"+index+",val:"+x+"]").iterator
+  def func1(index: Int, iter: Iterator[(Int)]): Iterator[String] = {
+    iter.toList.map(x => "[partId:" + index + ",val:" + x + "]").iterator
   }
+
+  def func2(iterator: Iterator[(Int)]): Iterator[Int] = {
+    var result = List[Int]()
+    var i = 0
+    while (iterator.hasNext) {
+      i += iterator.next()
+    }
+    result.::(i).iterator
+  }
+
 }
