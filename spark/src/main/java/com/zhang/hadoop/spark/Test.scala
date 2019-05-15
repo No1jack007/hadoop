@@ -26,7 +26,13 @@ object Test {
     val result3=rdd.aggregate(0)(_+_,_+_)
     println("aggregate"+"\t"+result3)
 
+    val arr=Array(1,2,3)
+    println("max\t"+arr.max)
 
+    println("max\t"+arr.reduce(math.max(_,_)))
+
+    val result4=rdd.aggregate(0)(math.max(_,_),math.max(_,_))
+    println("aggregate max"+"\t"+result4)
 
 
   }
