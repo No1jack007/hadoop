@@ -24,7 +24,7 @@ object Test {
     println("mapPartitions"+"\t"+result2.toBuffer)
 
     val result3=rdd.aggregate(0)(_+_,_+_)
-    println("aggregate"+"\t"+result3)
+    println("aggregate sum"+"\t"+result3)
 
     val arr=Array(1,2,3)
     println("max\t"+arr.max)
@@ -34,7 +34,14 @@ object Test {
     val result4=rdd.aggregate(0)(math.max(_,_),math.max(_,_))
     println("aggregate max"+"\t"+result4)
 
+    val rdd2=sc.parallelize(List("a","b","c","d","e","f"),2)
 
+    val result5=rdd2.aggregate("|")(_+_,_+_)
+    println("aggregate"+"\t"+result5)
+
+    val rdd3=sc.parallelize(List("12","23","345","4567"),2)
+    val result6=rdd3.aggregate("")((x,y)=> math.max(x.length,y.length).toString,(x,y)=>x+y)
+    println("aggregate\t"+result6)
   }
 
   def func1(index: Int, iter: Iterator[(Int)]): Iterator[String] = {
