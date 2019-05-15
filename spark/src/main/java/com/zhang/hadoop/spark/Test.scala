@@ -15,13 +15,20 @@ object Test {
 
     val sc = new SparkContext(conf)
 
-    val rdd = sc.parallelize(List(1, 2, 3, 4, 5, 6, 7), 2)
+    val rdd = sc.parallelize(List(1, 2, 3, 4, 5, 6, 7), 3)
 
     val result1 = rdd.mapPartitionsWithIndex(func1).collect()
-    println(result1.toBuffer)
+    println("mapPartitionsWithIndex"+"\t"+result1.toBuffer)
 
     val result2 = rdd.mapPartitions(func2).collect();
-    println(result2.toBuffer)
+    println("mapPartitions"+"\t"+result2.toBuffer)
+
+    val result3=rdd.aggregate(0)(_+_,_+_)
+    println("aggregate"+"\t"+result3)
+
+
+
+
   }
 
   def func1(index: Int, iter: Iterator[(Int)]): Iterator[String] = {
