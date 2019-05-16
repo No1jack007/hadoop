@@ -42,6 +42,14 @@ object Test {
     val rdd3=sc.parallelize(List("12","23","345","4567"),2)
     val result6=rdd3.aggregate("")((x,y)=> math.max(x.length,y.length).toString,(x,y)=>x+y)
     println("aggregate\t"+result6)
+
+    val rdd4=sc.parallelize(List(("cat",2),("cat",5),("mouse",4),("cat",12),("dog",12),("mouse")),2)
+//    val result7=rdd4.aggregat(0)(_+_,_+_)
+
+
+
+
+
   }
 
   def func1(index: Int, iter: Iterator[(Int)]): Iterator[String] = {
