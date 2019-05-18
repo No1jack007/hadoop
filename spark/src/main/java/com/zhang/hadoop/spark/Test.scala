@@ -1,6 +1,7 @@
 package com.zhang.hadoop.spark
 
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.{ SparkConf, SparkContext}
+import org.apache.spark.rdd.{PairRDDFunctions}
 
 object Test {
 
@@ -10,7 +11,7 @@ object Test {
     //    System.setProperty("hadoop.home.dir", "C:\\zhang\\work\\hadoop-2.6.5")
 
     val conf = new SparkConf
-    conf.setAppName("wordCount")
+    conf.setAppName("test")
     conf.setMaster("local")
 
     val sc = new SparkContext(conf)
@@ -43,8 +44,10 @@ object Test {
     val result6=rdd3.aggregate("")((x,y)=> math.max(x.length,y.length).toString,(x,y)=>x+y)
     println("aggregate\t"+result6)
 
-    val rdd4=sc.parallelize(List(("cat",2),("cat",5),("mouse",4),("cat",12),("dog",12),("mouse")),2)
-//    val result7=rdd4.aggregat(0)(_+_,_+_)
+    val rdd4=sc.parallelize(List(("cat",2),("cat",5),("mouse",4),("cat",12),("dog",12),("mouse",2)),2)
+    val result7=rdd4.aggregateByKey(0)(_+_,_+_)
+
+//    val rdd5=sc.textFile("D:\\0-program\\test\\wordCount.txt").flatMap(_.split(" ").map((_,1))).combineByKey()
 
 
 
