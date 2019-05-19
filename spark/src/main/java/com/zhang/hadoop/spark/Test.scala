@@ -7,8 +7,8 @@ object Test {
 
   def main(args: Array[String]): Unit = {
 
-    System.setProperty("hadoop.home.dir", "D:\\0-program\\program\\hadoop-2.6.5")
-    //    System.setProperty("hadoop.home.dir", "C:\\zhang\\work\\hadoop-2.6.5")
+//    System.setProperty("hadoop.home.dir", "D:\\0-program\\program\\hadoop-2.6.5")
+    System.setProperty("hadoop.home.dir", "C:\\zhang\\work\\hadoop-2.6.5")
 
     val conf = new SparkConf
     conf.setAppName("test")
@@ -45,7 +45,8 @@ object Test {
     println("aggregate\t"+result6)
 
     val rdd4=sc.parallelize(List(("cat",2),("cat",5),("mouse",4),("cat",12),("dog",12),("mouse",2)),2)
-    val result7=rdd4.aggregateByKey(0)(_+_,_+_)
+    val result7=rdd4.aggregateByKey(0)(math.max(_,_),_+_).collect()
+    println("aggregateByKey\t"+result7.toBuffer)
 
 //    val rdd5=sc.textFile("D:\\0-program\\test\\wordCount.txt").flatMap(_.split(" ").map((_,1))).combineByKey()
 
