@@ -8,8 +8,8 @@ object Test {
   def main(args: Array[String]): Unit = {
 
     System.setProperty("hadoop.home.dir", "D:\\0-program\\program\\hadoop-2.6.5")
-//    System.setProperty("hadoop.home.dir", "C:\\zhang\\work\\hadoop-2.6.5")
-//    System.setProperty("_JAVA_OPTIONS", "-Xmx512M")
+    //    System.setProperty("hadoop.home.dir", "C:\\zhang\\work\\hadoop-2.6.5")
+    //    System.setProperty("_JAVA_OPTIONS", "-Xmx512M")
 
     val conf = new SparkConf
     conf.setAppName("test")
@@ -45,19 +45,14 @@ object Test {
     val result6 = rdd3.aggregate("")((x, y) => math.max(x.length, y.length).toString, (x, y) => x + y)
     println("aggregate\t" + result6)
 
-    val rdd4 = sc.parallelize(List(("cat", 2), ("cat", 5), ("mouse", 4), ("cat", 12), ("dog", 12), ("mouse", 2)), 2)
+    val rdd4 = sc.parallelize(List(("cat" -> 2), ("cat" -> 5), ("mouse" -> 4), ("cat" -> 12), ("dog" -> 12), ("mouse" -> 2)), 2)
     val result7 = rdd4.aggregateByKey(0)(math.max(_, _), _ + _).collect()
     println("aggregateByKey\t" + result7.toBuffer)
 
     val rdd5 = sc.textFile("D:\\0-program\\test\\wordCount.txt").flatMap(_.split(" ").map((_, 1))).reduceByKey(_ + _).collect()
 
-    val rdd6 = sc.textFile("D:\\0-program\\test\\wordCount.txt",2).flatMap(_.split(" ").map((_, 1))).combineByKey(x => x+10, (m: Int, n: Int) => (m + n), (a: Int, b: Int) => (a + b)).collect()
-    println("combineByKey\t"+rdd6.toBuffer)
-
-
-
-
-
+    val rdd6 = sc.textFile("D:\\0-program\\test\\wordCount.txt", 2).flatMap(_.split(" ").map((_, 1))).combineByKey(x => x + 10, (m: Int, n: Int) => (m + n), (a: Int, b: Int) => (a + b)).collect()
+    println("combineByKey\t" + rdd6.toBuffer)
 
 
     sc.stop()
