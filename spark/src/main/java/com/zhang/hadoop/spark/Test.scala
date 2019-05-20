@@ -48,7 +48,7 @@ object Test {
     val result7=rdd4.aggregateByKey(0)(math.max(_,_),_+_).collect()
     println("aggregateByKey\t"+result7.toBuffer)
 
-//    val rdd5=sc.textFile("D:\\0-program\\test\\wordCount.txt").flatMap(_.split(" ").map((_,1))).combineByKey()
+    val rdd5=sc.textFile("D:\\0-program\\test\\wordCount.txt").flatMap(_.split(" ").map((_,1))).combineByKey()
 
 
 
