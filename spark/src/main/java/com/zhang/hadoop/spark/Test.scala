@@ -54,6 +54,18 @@ object Test {
     val rdd6 = sc.textFile("D:\\0-program\\test\\wordCount.txt", 2).flatMap(_.split(" ").map((_, 1))).combineByKey(x => x + 10, (m: Int, n: Int) => (m + n), (a: Int, b: Int) => (a + b)).collect()
     println("combineByKey\t" + rdd6.toBuffer)
 
+    val rdd7=sc.parallelize(List("dog","cat","gnu","salmon","rabbit","turkey","wolf","bear","bee"),3)
+    val rdd8=sc.parallelize(List(1,1,2,2,2,1,2,2,2),3)
+    val rdd9=rdd8.zip(rdd7)
+    println("zip\t" + rdd9.collect().toBuffer)
+
+    val rdd10=rdd9.combineByKey(List(_),(x: List[String],y: String)=>{x :+y},(a: List[String],b: List[String])=>{a++b})
+    println("combineByKey List\t" + rdd10.collect().toBuffer)
+
+    val rdd11=sc.textFile("D:\\0-program\\test\\wordCount.txt", 2).flatMap(_.split(" ").map((_, 1))).combineByKey(x => x,combineByKey_partition,combineByKey_shuffle).collect()
+
+    val rdd12=rdd9.combineByKey(List(_),combineByKey_func1,combineByKey_func2).collect()
+
 
     sc.stop()
   }
@@ -69,6 +81,26 @@ object Test {
       i += iterator.next()
     }
     result.::(i).iterator
+  }
+
+  def combineByKey_partition(m: Int, n: Int):Int={
+    println("combineByKey_partition\tm:\t"+m+"\t"+"combineByKey_partition\tn:\t"+n)
+    m + n
+  }
+
+  def combineByKey_shuffle(a: Int, b: Int):Int={
+    println("combineByKey_partition\ta:\t"+a+"\t"+"combineByKey_partition\tb:\t"+b)
+    a + b
+  }
+
+  def combineByKey_func1(x: List[String],y: String):List[String]={
+    println("combineByKey_func1\tx:\t"+x.toBuffer+"\t"+"combineByKey_func1\ty:\t"+y)
+    x :+y
+  }
+
+  def combineByKey_func2(a: List[String],b: List[String]):List[String]={
+    println("combineByKey_func2\tx:\t"+a.toBuffer+"\t"+"combineByKey_func2\ty:\t"+b.toBuffer)
+    a++b
   }
 
 }
