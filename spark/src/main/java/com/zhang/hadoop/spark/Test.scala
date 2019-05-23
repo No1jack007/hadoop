@@ -9,7 +9,6 @@ object Test {
 
     System.setProperty("hadoop.home.dir", "D:\\0-program\\program\\hadoop-2.6.5")
     //    System.setProperty("hadoop.home.dir", "C:\\zhang\\work\\hadoop-2.6.5")
-    //    System.setProperty("_JAVA_OPTIONS", "-Xmx512M")
 
     val conf = new SparkConf
     conf.setAppName("test")
@@ -65,6 +64,38 @@ object Test {
     val rdd11=sc.textFile("D:\\0-program\\test\\wordCount.txt", 2).flatMap(_.split(" ").map((_, 1))).combineByKey(x => x,combineByKey_partition,combineByKey_shuffle).collect()
 
     val rdd12=rdd9.combineByKey(List(_),combineByKey_func1,combineByKey_func2).collect()
+
+    val rdd13=rdd.repartition(4)
+    val result8 = rdd13.mapPartitionsWithIndex(func1).collect()
+    println("repartition" + "\t" + result8.toBuffer)
+
+    val rdd14=rdd.coalesce(2,true)
+    val result9 = rdd14.mapPartitionsWithIndex(func1).collect()
+    println("coalesce" + "\t" + result9.toBuffer)
+
+    val rdd15=sc.parallelize(List(("a",1),("b",2),("c",3)))
+    println("collectAsMap" + "\t" + rdd15.collectAsMap())
+
+    val rdd16=sc.parallelize(List(("a",1),("b",2),("b",2),("c",2),("c",1)))
+    println("countByKey" + "\t" + rdd16.countByKey())
+
+    println("countByValue" + "\t" + rdd16.countByValue())
+
+    val rdd17=sc.parallelize(List(("e",5),("c",3),("d",4),("c",2),("a",1),("b",6)))
+    println("filterByRange" + "\t" + rdd17.filterByRange("b","d").collect.toBuffer)
+
+    val rdd18=sc.parallelize(List(("a","1 2"),("b","3 4")))
+    println("flatMapValues" + "\t" + rdd18.flatMapValues(_.split(" ")).collect().toBuffer)
+
+    val rdd19=sc.parallelize(List("dog","wolf","cat","bear"),2)
+    println("foldByKey"+"\t"+rdd19.map(x=>(x.length,x)).foldByKey("")(_+_).collect().toBuffer)
+
+
+
+
+
+
+
 
 
     sc.stop()
