@@ -14,11 +14,15 @@ object UserLocation {
       val time = fields(1)
       val timeLong = if (eventType == "1") {
         -time.toLong
-      } else if (eventType == "1") {
+      } else if (eventType == "0") {
         time.toLong
       }
+      println(timeLong)
       (fields(0) + "_" + fields(2), timeLong)
     })
+    println(rdd1.collect().toBuffer)
+    val result=rdd1.groupBy(_._1)//.mapValues(_.foldLeft(0L)(_+_._2))
+    println(result.collect().toBuffer)
     sc.stop()
   }
 
