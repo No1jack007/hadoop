@@ -23,11 +23,11 @@ object UserLocation {
       (fields(0) + "_" + fields(2), timeLong)
     })
 //    println(rdd1.collect().toBuffer)
-    val result=rdd1.groupBy(_._1)//.mapValues({
-      //println(_)
+    val result=rdd1.groupBy(_._1).mapValues({
+//      println(_)
 //      _.foldLeft(0L)(_ + _._2)
-      //_
-   // })
+      ("1",_)
+   })
     println(result.collect().toBuffer)
     sc.stop()
   }
