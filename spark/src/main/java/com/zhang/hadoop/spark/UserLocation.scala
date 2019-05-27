@@ -8,7 +8,9 @@ object UserLocation {
     val conf = new SparkConf().setAppName("UrlCount").setMaster("local")
     val sc = new SparkContext(conf)
     //    val rdd1=sc.textFile("D:\\0-program\\test\\phone.txt").map(_.split(",")).map(x=>(x(0),x(1),x(2),x(3)))
-    val rdd1 = sc.textFile("D:\\0-program\\test\\phone.txt").map(line => {
+//    val path="D:\\0-program\\test\\phone.txt"
+    val path="C:\\zhang\\workspace\\data\\phone.txt"
+    val rdd1 = sc.textFile(path).map(line => {
       val fields = line.split(",")
       val eventType = fields(3)
       val time = fields(1)
@@ -20,11 +22,12 @@ object UserLocation {
       println(timeLong)
       (fields(0) + "_" + fields(2), timeLong)
     })
-    println(rdd1.collect().toBuffer)
-    val result=rdd1.groupBy(_._1).mapValues({
-      println(_)
-      _.foldLeft(0)()
-    })
+//    println(rdd1.collect().toBuffer)
+    val result=rdd1.groupBy(_._1)//.mapValues({
+      //println(_)
+//      _.foldLeft(0L)(_ + _._2)
+      //_
+   // })
     println(result.collect().toBuffer)
     sc.stop()
   }
