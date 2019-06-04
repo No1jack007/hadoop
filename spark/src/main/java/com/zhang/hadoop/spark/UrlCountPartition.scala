@@ -10,7 +10,9 @@ object UrlCountPartition {
     val conf=new SparkConf().setAppName("UrlCount").setMaster("local")
     val sc=new SparkContext(conf)
     //rdd1将数据切分，元组中放的是(URL,1)
-    val rdd1=sc.textFile("D:\\0-program\\test\\urlTest.txt").map(line=>{
+//    var path="D:\\0-program\\test\\"
+    var path="C:\\zhang\\workspace\\data\\"
+    val rdd1=sc.textFile(path+"urlTest.txt").map(line=>{
       val f=line.split("\t")
       (f(1),1)
     })
@@ -24,7 +26,7 @@ object UrlCountPartition {
 //    val rdd4=rdd3.filter(_._1=="hao.360.com").groupBy(_._1).mapValues(it=>{
 //      it.toList.sortBy(_._3).reverse.take(3)
 //    })
-    rdd3.repartition(3).saveAsTextFile("D:\\0-program\\test\\out")
+    rdd3.repartition(3).saveAsTextFile(path+"out\\out1")
 //    println(rdd4.collect().toBuffer)
     sc.stop()
   }
