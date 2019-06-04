@@ -22,7 +22,7 @@ object UrlCountPartition {
     val rdd3 = rdd2.map(t => {
       val url = t._1
       val host = new URL(url).getHost
-      (host, url, t._2)
+      (host, (url, t._2))
     })
 
     //    rdd3.filter(_._1=="hao.360.com")
@@ -37,6 +37,12 @@ object UrlCountPartition {
     println(rdd4.toBuffer)
 
     val hostPartitioner = new HostPartitioner(rdd4)
+
+    val rdd5=rdd3.partitionBy(hostPartitioner).mapPartitions(it=>{
+      it.toList.sortBy(_._2._2).reverse.take(2).iterator
+    })
+
+    rdd5.saveAsTextFile(path+"out\\out2")
 
     sc.stop()
   }
@@ -54,8 +60,10 @@ class HostPartitioner(ins: Array[String]) extends Partitioner {
     count += 1
   }
 
-  override def numPartitions: Int = 5
+  override def numPartitions: Int = ins.length
 
-  override def getPartition(key: Any): Int = ???
+  override def getPartition(key: Any): Int = {
+    parMap.getOrElseUpdate(key.toString, 0)
+  }
 
 }
