@@ -2,7 +2,7 @@ package com.zhang.hadoop.spark
 
 import java.net.URL
 
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.{Partitioner, SparkConf, SparkContext}
 
 object UrlCountPartition {
 
@@ -22,13 +22,27 @@ object UrlCountPartition {
       val host=new URL(url).getHost
       (host,url,t._2)
     })
+
 //    rdd3.filter(_._1=="hao.360.com")
 //    val rdd4=rdd3.filter(_._1=="hao.360.com").groupBy(_._1).mapValues(it=>{
 //      it.toList.sortBy(_._3).reverse.take(3)
 //    })
-    rdd3.repartition(3).saveAsTextFile(path+"out\\out1")
-//    println(rdd4.collect().toBuffer)
+
+//    rdd3.repartition(3).saveAsTextFile(path+"out\\out1")
+
+    val rdd4=rdd3.map(_._1).distinct().collect()
+
+    println(rdd4.toBuffer)
+
     sc.stop()
   }
+
+}
+
+class HostPartitioner extends Partitioner{
+
+  override def numPartitions: Int = ???
+
+  override def getPartition(key: Any): Int = ???
 
 }
