@@ -20,11 +20,12 @@ object UrlCountPartition {
       val host=new URL(url).getHost
       (host,url,t._2)
     })
-    rdd3.filter(_._1=="hao.360.com")
-    val rdd4=rdd3.filter(_._1=="hao.360.com").groupBy(_._1).mapValues(it=>{
-      it.toList.sortBy(_._3).reverse.take(3)
-    })
-    println(rdd4.collect().toBuffer)
+//    rdd3.filter(_._1=="hao.360.com")
+//    val rdd4=rdd3.filter(_._1=="hao.360.com").groupBy(_._1).mapValues(it=>{
+//      it.toList.sortBy(_._3).reverse.take(3)
+//    })
+    rdd3.repartition(3).saveAsTextFile("D:\\0-program\\test\\out")
+//    println(rdd4.collect().toBuffer)
     sc.stop()
   }
 
