@@ -14,3 +14,13 @@ object CustomSort {
   }
 
 }
+
+case class Girl(val faceValue:Int,val age:Int) extends Ordered[Girl] with Serializable {
+  override def compare(that: Girl): Int = {
+    if (this.faceValue==that.faceValue){
+      that.age-this.age
+    }else{
+      this.faceValue-that.faceValue
+    }
+  }
+}
