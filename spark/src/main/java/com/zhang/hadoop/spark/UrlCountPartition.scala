@@ -35,7 +35,6 @@ object UrlCountPartition {
     val rdd4 = rdd3.map(_._1).distinct().collect()
 
     println(rdd4.toBuffer)
-
     val hostPartitioner = new HostPartitioner(rdd4)
 
     val rdd5 = rdd3.partitionBy(hostPartitioner).mapPartitions(it => {
