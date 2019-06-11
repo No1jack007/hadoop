@@ -6,7 +6,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 object IPLocation {
 
-  def ip2Long(ip: String): Long = {
+  def ipToLong(ip: String): Long = {
     val fragments = ip.split("[.]")
     var ipNum = 0L
     for (i <- 0 until fragments.length) {
@@ -56,7 +56,7 @@ object IPLocation {
     })
 
     val result = ipsRdd.map(ip => {
-      val ipNum = ip2Long(ip)
+      val ipNum = ipToLong(ip)
       val index = binarySearch(ipRulesBroadcast.value, ipNum)
       val length = ipRulesBroadcast.value.length
       if (index < length && index > -1) {
@@ -80,7 +80,7 @@ object IPLocation {
   }
 
 
-  val data2MySQL = (iterator: Iterator[(String, Int)]) => {
+  val dataToMySQL = (iterator: Iterator[(String, Int)]) => {
     var conn: Connection = null
     var ps: PreparedStatement = null
     val sql = "insert into location_info (location,counts,access_date) values(?,?,?)"
