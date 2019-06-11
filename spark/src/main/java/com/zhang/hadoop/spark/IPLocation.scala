@@ -1,5 +1,7 @@
 package com.zhang.hadoop.spark
 
+import java.sql.{Connection, Date, DriverManager, PreparedStatement}
+
 import org.apache.spark.{SparkConf, SparkContext}
 
 object IPLocation {
@@ -64,14 +66,45 @@ object IPLocation {
         } catch {
           case exception: Exception => {
             println(index)
+            exception.printStackTrace()
+            (1, 1, "错")
           }
         }
       } else {
-
+        (0, 0, "无")
       }
-    })
+    }).map(t => (t._3, 1)).reduceByKey(_ + _)
     println(result.collect().toBuffer)
 
     sc.stop()
   }
+
+
+  val data2MySQL = (iterator: Iterator[(String, Int)]) => {
+    var conn: Connection = null
+    var ps: PreparedStatement = null
+    val sql = "insert into location_info (location,counts,access_date) values(?,?,?)"
+    try {
+      conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bigdata", "root", "123456")
+      iterator.foreach(line => {
+        ps = conn.prepareStatement(sql)
+        ps.setString(1, line._1)
+        ps.setInt(2, line._2)
+        ps.setDate(3, new Date(System.currentTimeMillis()))
+        ps.executeUpdate()
+      })
+    } catch {
+      case e: Exception => {
+        println("Mysql Exception")
+      }
+    } finally {
+      if (ps != null) {
+        ps.close()
+      }
+      if (conn != null) {
+        conn.close()
+      }
+    }
+  }
+
 }
