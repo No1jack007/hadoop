@@ -74,18 +74,20 @@ object IPLocation {
         (0, 0, "无")
       }
     }).map(t => (t._3, 1)).reduceByKey(_ + _)
+    //向MySQL写入数据
+    result.foreachPartition(dataToMySQL(_))
+
     println(result.collect().toBuffer)
 
     sc.stop()
   }
-
 
   val dataToMySQL = (iterator: Iterator[(String, Int)]) => {
     var conn: Connection = null
     var ps: PreparedStatement = null
     val sql = "insert into location_info (location,counts,access_date) values(?,?,?)"
     try {
-      conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bigdata", "root", "123456")
+      conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bigdata", "root", "root")
       iterator.foreach(line => {
         ps = conn.prepareStatement(sql)
         ps.setString(1, line._1)
