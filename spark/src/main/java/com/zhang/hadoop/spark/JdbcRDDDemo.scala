@@ -12,17 +12,17 @@ object JdbcRDDDemo {
     val sc = new SparkContext(conf)
     def getConnection()={
       Class.forName("com.mysql.jdbc.Driver").newInstance()
-      DriverManager.getConnection("jdbc:mysql://localhost:3306/bigdata", "root", "root")
+      DriverManager.getConnection("jdbc:mysql://localhost:3306/bigdata?charset=utf-8&serverTimezone=UTC", "root", "root")
     }
     val jdbcRDD=new JdbcRDD(
       sc,
       getConnection,
-      "select * from ta where id >=? and id <=?",
-      1,4,2,
+      "select counts,location from location_info where counts >=? and counts <=?",
+      1,2000,2,
       rs=>{
-        val id=rs.getInt(1)
-        val code=rs.getString(2)
-        (id,code)
+        val counts=rs.getInt(1)
+        val location=rs.getString(2)
+        (counts,location)
       }
     )
 

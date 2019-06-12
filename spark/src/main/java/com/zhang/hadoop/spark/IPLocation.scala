@@ -87,7 +87,7 @@ object IPLocation {
     var ps: PreparedStatement = null
     val sql = "insert into location_info (location,counts,access_date) values(?,?,?)"
     try {
-      conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bigdata", "root", "root")
+      conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bigdata?charset=utf-8&serverTimezone=UTC", "root", "root")
       iterator.foreach(line => {
         ps = conn.prepareStatement(sql)
         ps.setString(1, line._1)
@@ -98,6 +98,7 @@ object IPLocation {
     } catch {
       case e: Exception => {
         println("Mysql Exception")
+        e.printStackTrace()
       }
     } finally {
       if (ps != null) {
