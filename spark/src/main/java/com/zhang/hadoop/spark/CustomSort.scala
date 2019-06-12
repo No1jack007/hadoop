@@ -28,6 +28,7 @@ object CustomSort {
     import OrderContext._
     val rdd3 = rdd1.sortBy(x => Girl_1(x._2, x._3), false)
     println(rdd3.collect().toBuffer)
+    println(rdd3.toDebugString)
     sc.stop()
   }
 

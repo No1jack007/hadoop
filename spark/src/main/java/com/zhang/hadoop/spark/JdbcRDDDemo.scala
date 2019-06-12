@@ -12,7 +12,7 @@ object JdbcRDDDemo {
     val sc = new SparkContext(conf)
     def getConnection()={
       Class.forName("com.mysql.jdbc.Driver").newInstance()
-      DriverManager.getConnection("jdbc:mysql://localhost:3306/bigdata?charset=utf-8&serverTimezone=UTC", "root", "root")
+      DriverManager.getConnection("jdbc:mysql://localhost:3306/bigdata?serverTimezone=UTC", "root", "root")
     }
     val jdbcRDD=new JdbcRDD(
       sc,
