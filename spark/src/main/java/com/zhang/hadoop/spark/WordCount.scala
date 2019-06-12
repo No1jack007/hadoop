@@ -10,7 +10,7 @@ object WordCount {
 //    val path="D:\\0-program\\work"
     val host="hadoop1"
     val path="C:\\zhang\\workspace"
-    val conf=new SparkConf().setJars(Array(path+"\\idea\\hadoop\\spark\\target\\spark-0.0.1-SNAPSHOT.jar")).setMaster("spark://"+host+":7077").setAppName("WC")
+    val conf=new SparkConf().setJars(Array(path+"\\idea\\hadoop\\spark\\target\\spark-0.0.1-SNAPSHOT.jar.original")).setMaster("spark://"+host+":7077").setAppName("WC")
     val sc=new SparkContext(conf)
 //    sc.textFile(args(0)).flatMap(_.split(" ")).map((_,1)).reduceByKey(_+_).sortBy(_._2,false).saveAsTextFile(args(1))
 
