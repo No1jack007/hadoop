@@ -27,6 +27,9 @@ object WordCountLocal {
       */
     val sc = new SparkContext(conf)
 
+    //设置检查点路径
+    sc.setCheckpointDir("D:\\0-program\\test\\checkpoint")
+
     /**
       * 第三步：根据具体的数据源(HDFS、HBase、Local FS、DB、S3等)通过SparkContext创建RDD。
       * RDD的创建方式有三种：根据外部的数据源（HDFS）、根据Scala集合、其他的RDD操作。数据会被RDD划分成一系列的
@@ -47,10 +50,17 @@ object WordCountLocal {
       */
     val pairs = words.map { word => (word, 1) }
 
+    //先缓存
+    pairs.cache()
+    //在持久化到checkpoint
+    pairs.checkpoint()
+
     /**
       * 4.3、在每个单词实例计数为1基础之上统计每个单词在文件中出现的总次数
       */
     val wordCounts = pairs.reduceByKey(_+_) //对相同的key，进行value的累计
+
+
 
     wordCounts.foreach(map => println(map._1 +":"+ map._2))
 
