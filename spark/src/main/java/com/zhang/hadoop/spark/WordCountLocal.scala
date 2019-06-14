@@ -60,8 +60,6 @@ object WordCountLocal {
       */
     val wordCounts = pairs.reduceByKey(_+_) //对相同的key，进行value的累计
 
-
-
     wordCounts.foreach(map => println(map._1 +":"+ map._2))
 
     sc.stop()
