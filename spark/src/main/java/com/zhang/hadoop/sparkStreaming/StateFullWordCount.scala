@@ -13,11 +13,13 @@ object StateFullWordCount {
     //StreamingContext
     val conf = new SparkConf().setAppName("StreamingWordCount").setMaster("local[2]")
     val sc = new SparkContext(conf)
+    //使用updateStateByKey必须设置回滚点
+    sc.setCheckpointDir("D:\\0-program\\test\\checkpoint")
     val ssc = new StreamingContext(sc, Seconds(5))
     //接收数据
     val ds = ssc.socketTextStream("hadoop1-1", 8888)
     //DStream是一个特殊的RDD
-    val result = ds.flatMap(_.split("  ")).map((_, 1)).updateStateByKey(updateFunction,new HashPartitioner(sc.defaultParallelism),true)
+    val result = ds.flatMap(_.split(" ")).map((_, 1)).updateStateByKey(updateFunction,new HashPartitioner(sc.defaultParallelism),true)
     //打印结果
     result.print()
 
