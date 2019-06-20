@@ -15,6 +15,12 @@
 
     <dependencies>
 
+        <!--<dependency>-->
+            <!--<groupId>com.zhang.hadoop</groupId>-->
+            <!--<artifactId>kafka</artifactId>-->
+            <!--<version>0.0.1-SNAPSHOT</version>-->
+        <!--</dependency>-->
+
         <!-- spark -->
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -35,6 +41,12 @@
             <artifactId>spark-streaming_2.11</artifactId>
             <version>${spark.version}</version>
             <!--<scope>provided</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka-0-8_2.11</artifactId>
+            <version>${spark.version}</version>
         </dependency>
 
     </dependencies>
