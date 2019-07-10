@@ -1,5 +1,6 @@
 package com.zhang.hadoop;
 
+import com.zhang.hadoop.redis.RedisService;
 import com.zhang.hadoop.spark.hbase.HBaseService;
 import com.zhang.hadoop.util.SpringUtil;
 import org.springframework.boot.SpringApplication;
@@ -23,6 +24,7 @@ public class Application {
         stormTest();
         kafkaTest();
         hbaseUtilTest();
+        redisTest();
     }
 
     @Bean
@@ -31,8 +33,8 @@ public class Application {
     }
 
     public static void hBaseTest() {
-        HBaseService bean= SpringUtil.getBean(HBaseService.class);
-        bean.test();
+//        HBaseService bean= SpringUtil.getBean(HBaseService.class);
+//        bean.test();
     }
 
     public static void zookeeperTest() {
@@ -61,6 +63,11 @@ public class Application {
 //        map.put("code","5");
 //        map.put("cell","zhang zhang zhang");
 //        bean.insertOneModule(map);
+    }
+
+    public static void redisTest() {
+        RedisService bean= SpringUtil.getBean(RedisService.class);
+        bean.set("b","1");
     }
 
 }

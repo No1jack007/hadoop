@@ -4,8 +4,10 @@ spring:
   messages:
     encoding: UTF-8
   redis:
-    host: 127.0.0.1
-    port: 6379
+#    host: hadoop1
+#    port: 7001
+    cluster:
+      nodes: 192.168.10.11:7001,192.168.10.11:7002,192.168.10.11:7003
     password:
     database: 0
   datasource:
