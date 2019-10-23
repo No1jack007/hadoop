@@ -45,7 +45,7 @@ public class Module {
         long start = System.currentTimeMillis();
 
         //1.主机厂车辆生产
-        //createVehiclePack();
+        createVehiclePack();
         //2.电池厂电池生产
         //createBatteryPack();
         //3.主机厂车辆销售
@@ -69,7 +69,7 @@ public class Module {
         //12.主机厂车辆换电退役
         //createReplaceRetire();
         //13.电池厂电池退役
-        createRetireFactory();
+//        createRetireFactory();
 
 //        test();
 
