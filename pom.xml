@@ -17,6 +17,7 @@
         <module>spark</module>
         <module>storm</module>
         <module>zookeeper</module>
+        <module>dianshang</module>
 
     </modules>
 
