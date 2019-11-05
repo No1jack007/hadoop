@@ -31,7 +31,7 @@ public class Module {
      * 主机厂平台地址
      * 此地址改为系统部署后的映射地址，以下地址位北理工对外地址，可首次测试使用
      */
-    public static String ip1 = "http://127.0.0.1:8993";
+    public static String ip1 = "http://192.168.1.111:8993";
     //主机厂调用接口令牌，由乙方技术支持提供，且需由甲方提供主机厂全称及统一厂商社会信用代码
     public static String vehicle_token = "C3kNIVJWfOxLkRDydrJXsA4ff6oMaTOP";
     //主机厂调用接口密钥，由乙方技术支持提供
@@ -112,7 +112,7 @@ public class Module {
         List<String> packList = new ArrayList<>();
         packList.add("P100");
         Map<String, Object> vinMap = new HashMap<>();
-        vinMap.put("vin", "");
+        vinMap.put("vin", "123456");
         vinMap.put("vehModelName", "vehModel01");
         vinMap.put("packCodeList", packList);
         vinMap.put("systemCode", "S001");
