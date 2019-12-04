@@ -24,8 +24,8 @@ public class NacosConsumerApplication {
         SpringApplication.run(NacosConsumerApplication.class, args);
     }
 
-    @LoadBalanced
     @Bean
+    @LoadBalanced
     public RestTemplate restTemplate(){
         return new RestTemplate();
     }
