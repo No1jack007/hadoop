@@ -1,4 +1,4 @@
-package com.zhang.hadoop.spark.yunbiji.service;
+package com.zhang.hadoop.service.yunbiji.service;
 
 import com.zhang.hadoop.spark.hbase.HBaseService;
 import com.zhang.hadoop.redis.RedisService;

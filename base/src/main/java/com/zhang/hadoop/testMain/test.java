@@ -3,10 +3,12 @@ package com.zhang.hadoop.testMain;
 import com.zhang.hadoop.util.AES;
 import com.zhang.hadoop.util.DateUtil;
 import com.zhang.hadoop.util.SecurityUtil;
+import org.junit.Test;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -66,6 +68,34 @@ public class test {
 
         }
 
+    }
 
+    @Test
+    public void test(){
+        System.out.println(checkDecimal("10123.01",10,0));
+    }
+
+    public static boolean checkDecimal(String number,int length,int decimal){
+        if(number.length()>length){
+            return false;
+        }
+        Pattern p = Pattern.compile("^\\+{0,1}[1-9]\\d*");
+        Matcher m = p.matcher(number);
+        if (!m.matches()){
+            if(decimal>0){
+                Pattern p1 = Pattern.compile("\\+{0,1}[0]\\.[1-9]*|\\+{0,1}[1-9]\\d*\\.\\d*");
+                Matcher m1 = p1.matcher(number);
+                if (!m1.matches()){
+                    return false;
+                }
+                String s1[]=number.split("\\.");
+                if(s1[1].length()>decimal){
+                    return false;
+                }
+            }else {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -1,7 +1,7 @@
-package com.zhang.hadoop.spark.yunbiji.controller;
+package com.zhang.hadoop.service.yunbiji.controller;
 
+import com.zhang.hadoop.service.yunbiji.service.NoteService;
 import com.zhang.hadoop.spark.yunbiji.constants.Constants;
-import com.zhang.hadoop.spark.yunbiji.service.NoteService;
 import com.zhang.hadoop.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
