@@ -21,7 +21,6 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-
         <!--storm相关jar -->
         <dependency>
             <groupId>org.apache.storm</groupId>
@@ -90,9 +89,6 @@
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-test</artifactId>
-            <!-- curator-test is not compatible with Zookeeper 3.4.x.
-            Curator works around this by using an older curator-test jar.
-            See https://github.com/apache/curator/tree/6ba4de36d4e8b2b65d45c005a6a92dd85c3c497f/curator-test-zk34-->
             <version>${curator-test.version}</version>
             <scope>test</scope>
         </dependency>

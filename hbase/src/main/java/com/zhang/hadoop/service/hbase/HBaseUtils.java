@@ -1,4 +1,4 @@
-package com.zhang.hadoop.spark.hbase;
+package com.zhang.hadoop.service.hbase;
 
 
 import org.apache.hadoop.conf.Configuration;
@@ -30,7 +30,7 @@ public class HBaseUtils {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     //手动获取hbaseConfig配置类对象
-    private static com.zhang.hadoop.spark.hbase.HbaseConfig hbaseConfig = com.zhang.hadoop.spark.hbase.SpringContextHolder.getBean("hbaseConfig");
+    private static HbaseConfig hbaseConfig = SpringContextHolder.getBean("hbaseConfig");
 
     private static Configuration conf;
     private static ExecutorService pool = Executors.newScheduledThreadPool(20);	//设置连接池

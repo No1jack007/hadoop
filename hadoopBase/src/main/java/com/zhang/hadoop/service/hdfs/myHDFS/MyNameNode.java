@@ -1,9 +1,11 @@
-package com.zhang.hadoop.spark.hdfs.myHDFS;
+package com.zhang.hadoop.service.hdfs.myHDFS;
+
+import com.zhang.hadoop.service.hdfs.myHDFS.ClientNameNodeProtocol;
 
 /**
  * Created by zhang yufei on 2018/8/19.
  */
-public class MyNameNode implements ClientNameNodeProtocol{
+public class MyNameNode implements ClientNameNodeProtocol {
 
     @Override
     public String getMetaData(String path){

@@ -1,4 +1,4 @@
-package com.zhang.hadoop.spark.hbase;
+package com.zhang.hadoop.service.hbase;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

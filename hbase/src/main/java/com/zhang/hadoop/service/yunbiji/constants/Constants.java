@@ -1,4 +1,4 @@
-package com.zhang.hadoop.spark.yunbiji.constants;
+package com.zhang.hadoop.service.yunbiji.constants;
 
 /**
  * Created by zhang yufei on 2018/12/3.

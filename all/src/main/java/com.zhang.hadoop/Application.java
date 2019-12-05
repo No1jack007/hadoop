@@ -1,7 +1,6 @@
 package com.zhang.hadoop;
 
 import com.zhang.hadoop.redis.RedisService;
-import com.zhang.hadoop.spark.hbase.HBaseService;
 import com.zhang.hadoop.util.SpringUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

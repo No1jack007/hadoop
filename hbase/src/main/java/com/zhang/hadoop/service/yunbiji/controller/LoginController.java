@@ -1,6 +1,6 @@
 package com.zhang.hadoop.service.yunbiji.controller;
 
-import com.zhang.hadoop.spark.yunbiji.constants.Constants;
+import com.zhang.hadoop.service.yunbiji.constants.Constants;
 import com.zhang.hadoop.util.StringUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

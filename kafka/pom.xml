@@ -15,6 +15,7 @@
 
     <dependencies>
 
+
         <dependency>
             <groupId>com.zhang.hadoop</groupId>
             <artifactId>base</artifactId>
