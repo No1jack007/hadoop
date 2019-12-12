@@ -1,3 +1,4 @@
+host: 127.0.0.1
 server:
   port: 8762
 spring:
@@ -6,9 +7,14 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: ${host}:8848
+  redis:
+    host: ${host}
+    port: 6379
+    password:
+    database: 0
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/mysql?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://${host}/mysql?useUnicode=true&characterEncoding=utf-8
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource

@@ -45,7 +45,7 @@ public class Module {
         long start = System.currentTimeMillis();
 
         //1.主机厂车辆生产
-        createVehiclePack();
+        //createVehiclePack();
         //2.电池厂电池生产
         //createBatteryPack();
         //3.主机厂车辆销售
@@ -103,7 +103,10 @@ public class Module {
 
 //        testReplace();
 
-
+        String s1="2lyycIotRi1LOqe8H1OtMfyBrPHA1UVs8PkVI2yLvMYshhs1gM27UeF55tJHxsMqbJZvMX2651ezueSh7CQK8Cda0BwTl10uF333thL3X9E3duHXuWB5Vdp1VffjH1b1FnLtsDrf+4FdNB3XWtpS2HNLzKyMjwtrhnyKmAWne8obKHTLSL2ao6KY/HGwZPMS7tBZHDGJUXxWXgF5p+BG5UeSlGeSmN7OjYAR4r9kYGsc723wJKtNSG7e34Dy9wVa+apPp43HAoLSZ6N5R2iqron0x5cwma0+FIhi0l36sXOMBxjWpnY5rbcoLabu7ly4";
+        System.out.println(decrypt(s1,"1CYOhQUXjIRj3TDj"));
+        String s2="{\"vinList\":[{\"vin\":\"LTWA35K12KS000423\",\"vehModelName\":\"ME700001\",\"vehicleName\":\"ME7\",\"offlineProductionTime\":\"2019-12-12 15:47:50\",\"vehicleBrand\":\"me7\",\"packCodeList\":[\"066PEF20039C0S9440000003\"],\"systemCode\":\"\",\"vehicleType\":\"1\"}]} ";
+//        System.out.println(encrypt(s2,"1CYOhQUXjIRj3TDj"));
         long end = System.currentTimeMillis();
         System.out.println("完成" + (end - start));
     }
@@ -1159,5 +1162,7 @@ public class Module {
             e.printStackTrace();
         }
     }
+
+
 
 }

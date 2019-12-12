@@ -48,9 +48,9 @@ public class TestApi {
         //3.主机厂车辆销售
         //createSale();
         //4.电池厂售后
-        createRepairBattery();
+//        createRepairBattery();
         //5.主机厂维修
-        createRepairVehicle();
+//        createRepairVehicle();
         //6.电池厂维修
         //createFactoryRepair();
         //7.主机厂回收网点入库
@@ -163,7 +163,7 @@ public class TestApi {
     public static void createRepairVehicle() {
         List<Map<String, Object>> recordList = new ArrayList<>();
         Map<String, Object> record = new HashMap<>();
-        record.put("vin", "LNBSCB3F0DD130955");
+        record.put("vin", "V0000000000000000");
         record.put("replaceDate", "2018-01-05");
         record.put("oldCode", "P00000000000000000000000");
         record.put("whereaboutsId", "123456789123456789");
