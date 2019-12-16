@@ -7,7 +7,7 @@ import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.dstream.InputDStream
 
 import kafka.common.TopicAndPartition
-import kafka.message.MessageAndMetadata
+//import kafka.message.MessageAndMetadata
 import kafka.serializer.Decoder
 import org.apache.spark.streaming.kafka.{HasOffsetRanges, KafkaCluster, KafkaUtils}
 import org.apache.spark.streaming.kafka.KafkaCluster.LeaderOffset
@@ -40,8 +40,8 @@ class KafkaManager(val kafkaParams: Map[String, String]) extends Serializable {
       if (consumerOffsetsE.isLeft)
         throw new SparkException(s"get kafka consumer offsets failed: ${consumerOffsetsE.left.get}")
       val consumerOffsets = consumerOffsetsE.right.get
-      KafkaUtils.createDirectStream[K, V, KD, VD, (K, V)](
-        ssc, kafkaParams, consumerOffsets, (mmd: MessageAndMetadata[K, V]) => (mmd.key, mmd.message))
+//      KafkaUtils.createDirectStream[K, V, KD, VD, (K, V)](
+//        ssc, kafkaParams, consumerOffsets, (mmd: MessageAndMetadata[K, V]) => (mmd.key, mmd.message))
     }
     messages
   }

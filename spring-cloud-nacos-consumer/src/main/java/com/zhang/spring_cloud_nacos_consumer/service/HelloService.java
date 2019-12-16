@@ -20,7 +20,12 @@ public class HelloService {
         return restTemplate.getForObject("http://nacos-provider/hi??name="+name,String.class);
     }
 
-
+    /*
+    Hystrix熔断
+     */
+    public String hiError(String name) {
+        return "hi,"+name+",sorry,error!";
+    }
 
 
 }
