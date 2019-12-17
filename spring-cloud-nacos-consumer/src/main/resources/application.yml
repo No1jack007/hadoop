@@ -10,3 +10,8 @@ spring:
 feign:
   hystrix:
     enabled: true
+zuul:
+  routes:
+    api-provider:
+      path: /api-provider/**
+      serviceId: nacos-provider
