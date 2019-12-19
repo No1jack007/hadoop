@@ -1,6 +1,7 @@
 package com.curise.eshop.auth.dao;
 
 import com.curise.eshop.auth.entity.Permission;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @create 2018/12/13
  * @since 1.0.0
  */
+@Repository
 public interface PermissionDao {
 
     /**
