@@ -20,7 +20,6 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 @ComponentScan(basePackages={"com.zhang"})
 @RestController
-
 public class NacosProviderApplication {
 
     public static void main(String[] args) {

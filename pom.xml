@@ -80,6 +80,11 @@
         <module>zookeeper</module>
         <module>spring-cloud-nacos-provider</module>
         <module>spring-cloud-nacos-consumer</module>
+        <module>spring-cloud-security-auth</module>
+        <module>spring-cloud-security-gateway</module>
+        <module>spring-cloud-security-member</module>
+        <module>spring-cloud-base</module>
+        <module>data-base</module>
     </modules>
 
     <build>
