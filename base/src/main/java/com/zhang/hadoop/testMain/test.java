@@ -3,11 +3,12 @@ package com.zhang.hadoop.testMain;
 import com.zhang.hadoop.util.AES;
 import com.zhang.hadoop.util.DateUtil;
 import com.zhang.hadoop.util.SecurityUtil;
+import jodd.json.JsonSerializer;
 import org.junit.Test;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,6 +69,18 @@ public class test {
 
         }
 
+        List<Map<String,Object> > list=new LinkedList<>();
+        Map<String,Object> map1=new HashMap<>();
+        map1.put("modelId","M1");
+        map1.put("num","2");
+        list.add(map1);
+        Map<String,Object> map2=new HashMap<>();
+        map2.put("modelId","M2");
+        map2.put("num","3");
+        list.add(map2);
+        Map<String,Object> map3=new HashMap<>();
+        map3.put("modelInfo",new JsonSerializer().serialize(list));
+        System.out.println(new JsonSerializer().deep(true).serialize(map3));
     }
 
     @Test
