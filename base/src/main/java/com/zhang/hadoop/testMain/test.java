@@ -81,6 +81,24 @@ public class test {
         Map<String,Object> map3=new HashMap<>();
         map3.put("modelInfo",new JsonSerializer().serialize(list));
         System.out.println(new JsonSerializer().deep(true).serialize(map3));
+
+        List l1=new ArrayList(){{
+            add("1");
+            add("2");
+            add("3");
+            add("4");
+            add("5");
+            add("6");
+            add("7");
+            add("8");
+            add("9");
+            add("10");
+        }};
+        for(int i=0;i<l1.size();i++){
+            for (int j=i+1;j<l1.size();j++){
+                System.out.println(l1.get(i)+"\t"+l1.get(j));
+            }
+        }
     }
 
     @Test
