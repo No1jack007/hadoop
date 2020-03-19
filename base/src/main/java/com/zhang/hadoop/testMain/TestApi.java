@@ -29,7 +29,7 @@ public class TestApi {
      * 主机厂平台地址
      * 此地址改为系统部署后的映射地址，以下地址位北理工对外地址，可首次测试使用
      */
-    public static String ip1 = "http://192.168.1.111:8993";
+    public static String ip1 = "http://127.0.0.1:8993";
     //主机厂调用接口令牌，由乙方技术支持提供，且需由甲方提供主机厂全称及统一厂商社会信用代码
     public static String vehicle_token = "C3kNIVJWfOxLkRDydrJXsA4ff6oMaTOP";
     //主机厂调用接口密钥，由乙方技术支持提供
@@ -42,7 +42,7 @@ public class TestApi {
     public static void main(String args[]) {
         long start = System.currentTimeMillis();
         //1.电池厂电池生产
-        createBattery();
+//        createBattery();
         //2.主机厂车辆生产
 //        createVehicle();
         //3.主机厂车辆销售
@@ -52,7 +52,7 @@ public class TestApi {
         //5.主机厂维修
 //        createRepairVehicle();
         //6.电池厂维修
-        //createFactoryRepair();
+        createFactoryRepair();
         //7.主机厂回收网点入库
         //createRecoverStorage();
         //8.主机厂回收网点退役
@@ -176,6 +176,35 @@ public class TestApi {
         System.out.println(result);
     }
 
+    public static void createFactoryRepair() {
+        //电池单体
+        Map<String,Object> cell2=new HashMap<String,Object>();
+        cell2.put("code","C311R2");
+        cell2.put("type","C");
+        List<Map<String,Object>> cellList2=new ArrayList<Map<String,Object>>();
+        cellList2.add(cell2);
+        //电池模组
+        Map<String,Object> module2=new HashMap<String,Object>();
+        module2.put("code","M310R2");
+        module2.put("childCodeList",cellList2);
+        module2.put("modelId","zhangM");
+        module2.put("type","M");
+        module2.put("orderCode","234567898765");
+        List<Map<String,Object>> repairList=new ArrayList<Map<String,Object>>();
+        //车辆电池数据集
+        Map<String,Object> repair=new HashMap<String,Object>();
+        repair.put("vin", "LGWEESK55SHE6CYMD");
+        repair.put("replaceDate", "2018-01-05");
+        repair.put("oldCode", "LP-HM-1");
+        repair.put("whereaboutsId", "123456789123456789");
+        repair.put("whereaboutsName", "维修厂");
+        repair.put("newCodeBean", module2);
+        repair.put("batterySpecies", "M");
+        repairList.add(repair);
+        HttpResponse response = send(ip1 + "/bitnei/v1.0/battery/repair/receiveRepairVehicleAdditional", repairList, vehicle_token, vehicle_key);
+        String result = parsToMap(response, vehicle_key);
+        System.out.println(result);
+    }
 
     public static HttpResponse send(String url, Object data, String token, String key) {
         try {
