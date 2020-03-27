@@ -54,7 +54,7 @@ public class Test1 {
         vinMap.put("vehicleType", "1");
 
         List<String> cellList1=new ArrayList<>();
-        for(int i=0;i<5000000;i++){
+        for(int i=0;i<1000000;i++){
             cellList1.add("C111"+i);
         }
         Map<String,Object> module1=new HashMap<>();

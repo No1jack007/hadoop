@@ -44,7 +44,7 @@ public class TestApi {
         //1.电池厂电池生产
 //        createBattery();
         //2.主机厂车辆生产
-//        createVehicle();
+        createVehicle();
         //3.主机厂车辆销售
         //createSale();
         //4.电池厂售后
@@ -52,7 +52,7 @@ public class TestApi {
         //5.主机厂维修
 //        createRepairVehicle();
         //6.电池厂维修
-        createFactoryRepair();
+//        createFactoryRepair();
         //7.主机厂回收网点入库
         //createRecoverStorage();
         //8.主机厂回收网点退役
@@ -110,7 +110,9 @@ public class TestApi {
         vinMap.put("vehicleType", "1");
         List<Map<String, Object>> vinList = new ArrayList<>();
         vinList.add(vinMap);
-        HttpResponse response = send(ip1 + "/bitnei/v1.0/battery/vehicle/receiveVehicleProduce", vinList, vehicle_token, vehicle_key);
+        Map<String,Object> data=new HashMap<>();
+        data.put("vinList", vinList);
+        HttpResponse response = send(ip1 + "/bitnei/v1.0/battery/vehicle/receiveVehicleProduce", data, vehicle_token, vehicle_key);
         String result = parsToMap(response, vehicle_key);
         System.out.println(result);
     }

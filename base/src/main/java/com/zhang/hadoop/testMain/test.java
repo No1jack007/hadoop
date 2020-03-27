@@ -62,6 +62,10 @@ public class test {
         Pattern p6 = Pattern.compile("^[A-Z0-9]{3}[PMC]{1}[A-GZ]{1}[A-Z0-9]{2}[A-Z0-9]{7}[1-9A-HJ-NPR-TV-Y]{1}[1-9A-C]{1}[0-9A-HJ-NPR-TV-Y]{1}[0-9]{7}$");
         System.out.println("电池编码：" + p6.matcher("001PABB12345671111234567").matches());
 
+
+        Pattern p7 = Pattern.compile("^[\\u4e00-\\u9fa5A-Za-z()（）]+");
+        System.out.println("厂商名称：" + p7.matcher("DraexlmaierAutomotivprodukteGmbH").matches());
+
         try {
             Random rand = SecureRandom.getInstanceStrong();
             System.out.println(rand.nextInt(1000000000) + "");
@@ -96,7 +100,7 @@ public class test {
         }};
         for(int i=0;i<l1.size();i++){
             for (int j=i+1;j<l1.size();j++){
-                System.out.println(l1.get(i)+"\t"+l1.get(j));
+//                System.out.println(l1.get(i)+"\t"+l1.get(j));
             }
         }
     }
