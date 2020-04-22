@@ -73,8 +73,8 @@ public class test {
 
         }
 
-        Pattern p7 = Pattern.compile("^[A-Z0-9]{3}[PMC]{1}[A-GZ]{1}[A-Z0-9]{2}[A-Z0-9]{7}[1-9A-HJ-NPR-TV-Y]{1}[1-9A-C]{1}[0-9A-HJ-NPR-TV-Y]{1}[0-9]{7}$");
-        System.out.println("汉字：" + p6.matcher("001PABB12345671111234567").matches());
+        Pattern p8 = Pattern.compile("^[A-Z0-9]{3}[PMC]{1}[A-GZ]{1}[A-Z0-9]{2}[A-Z0-9]{7}[1-9A-HJ-NPR-TV-Y]{1}[1-9A-C]{1}[0-9A-HJ-NPR-TV-Y]{1}[0-9]{7}$");
+        System.out.println("汉字：" + p8.matcher("001PABB12345671111234567").matches());
 
 
         List<Map<String,Object> > list=new LinkedList<>();
