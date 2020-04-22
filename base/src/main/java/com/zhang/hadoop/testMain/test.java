@@ -59,8 +59,8 @@ public class test {
         Pattern p5 = Pattern.compile("^(.*)$");
         System.out.println("编码：" + p5.matcher("").matches());
 
-        Pattern p6 = Pattern.compile("^[A-Z0-9]{3}[PMC]{1}[A-GZ]{1}[A-Z0-9]{2}[A-Z0-9]{7}[1-9A-HJ-NPR-TV-Y]{1}[1-9A-C]{1}[0-9A-HJ-NPR-TV-Y]{1}[0-9]{7}$");
-        System.out.println("电池编码：" + p6.matcher("001PABB12345671111234567").matches());
+        Pattern p6 = Pattern.compile("^(.*)$");
+        System.out.println("汉字：" + p6.matcher("张").matches());
 
 
         Pattern p7 = Pattern.compile("^[\\u4e00-\\u9fa5A-Za-z()（）]+");
@@ -72,6 +72,10 @@ public class test {
         } catch (NoSuchAlgorithmException e) {
 
         }
+
+        Pattern p7 = Pattern.compile("^[A-Z0-9]{3}[PMC]{1}[A-GZ]{1}[A-Z0-9]{2}[A-Z0-9]{7}[1-9A-HJ-NPR-TV-Y]{1}[1-9A-C]{1}[0-9A-HJ-NPR-TV-Y]{1}[0-9]{7}$");
+        System.out.println("汉字：" + p6.matcher("001PABB12345671111234567").matches());
+
 
         List<Map<String,Object> > list=new LinkedList<>();
         Map<String,Object> map1=new HashMap<>();
@@ -103,6 +107,9 @@ public class test {
 //                System.out.println(l1.get(i)+"\t"+l1.get(j));
             }
         }
+
+        List<String> list1=new ArrayList<>();
+        System.out.println(new JsonSerializer().serialize(list1));
     }
 
     @Test
