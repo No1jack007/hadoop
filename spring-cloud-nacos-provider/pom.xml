@@ -38,7 +38,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.5.7.RELEASE</version>
                 <configuration>
-                    <!--<mainClass>com.zhang.spring_cloud_nacos_provider.NacosProviderApplication</mainClass>-->
+                    <mainClass>com.zhang.spring_cloud_nacos_provider.NacosProviderApplication</mainClass>
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
                 <executions>
