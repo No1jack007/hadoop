@@ -19,10 +19,7 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-alibaba-nacos-config</artifactId>
-        </dependency>
+
 
         <!--调试工具-->
 <!--        <dependency>-->
@@ -39,9 +36,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.5.7.RELEASE</version>
                 <configuration>
-                    <mainClass>com.zhang.spring_cloud_nacos_provider.NacosProviderApplication</mainClass>
-<!--                    <classifier>exec</classifier>-->
+                    <!--<mainClass>com.zhang.spring_cloud_nacos_provider.NacosProviderApplication</mainClass>-->
+                    <includeSystemScope>true</includeSystemScope>
                 </configuration>
                 <executions>
                     <execution>

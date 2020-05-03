@@ -20,21 +20,31 @@
     <!--    </parent>-->
 
     <properties>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <hadoop.version>2.9.1</hadoop.version>
-        <hbase.version>2.1.1</hbase.version>
+
+        <mysql.version>5.1.47</mysql.version>
+        <druid.verion>1.1.16</druid.verion>
+        <mybatis.spring.boot.version>1.3.0</mybatis.spring.boot.version>
+        <lombok.version>1.16.18</lombok.version>
+
+        <spring.boot.version>2.2.2.RELEASE</spring.boot.version>
+        <spring.cloud.version>Hoxton.SR1</spring.cloud.version>
+        <spring-cloud-alibaba.version>2.1.0.RELEASE</spring-cloud-alibaba.version>
+
         <scala.version>2.11.12</scala.version>
         <spark.version>2.4.1</spark.version>
-        <kafka.version>1.0.0</kafka.version>
+        <hadoop.version>2.9.1</hadoop.version>
+        <hbase.version>2.1.1</hbase.version>
         <storm.version>1.1.3</storm.version>
+        <kafka.version>1.0.0</kafka.version>
         <curator.version>4.0.1</curator.version>
         <curator-test.version>2.13.0</curator-test.version>
-        <spring.boot.version>2.1.7.RELEASE</spring.boot.version>
-        <spring.cloud.version>Greenwich.SR2</spring.cloud.version>
-        <spring-cloud-alibaba.version>0.9.0.RELEASE</spring-cloud-alibaba.version>
+
         <docker.image.prefix>springio</docker.image.prefix>
+
     </properties>
 
     <dependencyManagement>
@@ -54,7 +64,7 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.springframework.cloud</groupId>
+                <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
                 <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
@@ -90,29 +100,31 @@
     <build>
         <!--<sourceDirectory>src/main/java</sourceDirectory>-->
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>com.zhang.hadoop.Application</mainClass>
-                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal> <!--将依赖的jar包打到一起-->
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                <!--<version>1.5.7.RELEASE</version>-->
 
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
+                <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<mainClass>com.zhang.hadoop.Application</mainClass>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>&ndash;&gt;-->
+                <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>repackage</goal> &lt;!&ndash;将依赖的jar包打到一起&ndash;&gt;-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+
+            <!--<plugin>-->
+                <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<source>1.8</source>-->
+                    <!--<target>1.8</target>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
 
             <!--main方法jar包-->
             <!--<plugin>-->
@@ -149,6 +161,24 @@
             <!--</execution>-->
             <!--</executions>-->
             <!--</plugin>-->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
 
         </plugins>
 
