@@ -5,12 +5,15 @@ import com.zhang.hadoop.util.BASE64Encoder;
 import com.zhang.hadoop.util.Base64;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
+import jodd.json.JsonParser;
 import jodd.json.JsonSerializer;
 import org.springframework.util.StringUtils;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -44,7 +47,7 @@ public class TestApi {
         //1.电池厂电池生产
 //        createBattery();
         //2.主机厂车辆生产
-        createVehicle();
+        //createVehicle();
         //3.主机厂车辆销售
         //createSale();
         //4.电池厂售后
@@ -58,7 +61,7 @@ public class TestApi {
         //8.主机厂回收网点退役
         //createRetireVehicle();
         //9.主机厂车辆换电入库
-        //createReplaceBatteryInStorage();
+        createReplaceBattery();
         //10.主机厂车辆换电记录
         //createReplaceReplacement();
         //11.主机厂车辆换电维修
@@ -67,6 +70,7 @@ public class TestApi {
         //createReplaceRetire();
         //13.电池厂电池退役
         //createRetireFactory();
+        //testLogin();
         long end = System.currentTimeMillis();
         System.out.println("完成" + (end - start));
     }
@@ -204,6 +208,34 @@ public class TestApi {
         repair.put("batterySpecies", "M");
         repairList.add(repair);
         HttpResponse response = send(ip1 + "/bitnei/v1.0/battery/repair/receiveRepairVehicleAdditional", repairList, vehicle_token, vehicle_key);
+        String result = parsToMap(response, vehicle_key);
+        System.out.println(result);
+    }
+
+    public static void createReplaceBattery(){
+        List<String> cellList1=new ArrayList<>();
+        cellList1.add("C00000000000000000000000");
+        Map<String,Object> module1=new HashMap<>();
+        module1.put("code","M00000000000000000000000");
+        module1.put("cellList",cellList1);
+        module1.put("modelId","zhangM");
+        module1.put("cellModelId","zhangC");
+        List<Map<String,Object>> moduleList1=new ArrayList<>();
+        moduleList1.add(module1);
+        Map<String, Object> pack1 = new HashMap<>();
+        pack1.put("code", "P00000000000000000000000");
+        pack1.put("moduleList",moduleList1);
+        pack1.put("modelId", "zhangP");
+        pack1.put("replaceUnitCode", "123456789123456789");
+        pack1.put("replaceUnitName", "换电厂");
+        List<Map<String, Object>> packList = new ArrayList<>();
+        packList.add(pack1);
+        for(int i=1;i<20;i++){
+            Map<String, Object> pack2 = new HashMap<>();
+            pack2.put("code", i);
+            packList.add(pack2);
+        }
+        HttpResponse response = send(ip1 + "/bitnei/v1.0/battery/replaceBattery/receiveReplaceBattery", packList, vehicle_token, vehicle_key);
         String result = parsToMap(response, vehicle_key);
         System.out.println(result);
     }
@@ -354,4 +386,35 @@ public class TestApi {
 //        System.out.println((new JsonSerializer()).serialize(params));
         return request;
     }
+
+    public static void testLogin(){
+        String url1="http://127.0.0.1:8993/admin/login";
+        try {
+            URL url = new URL(url1);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true); // 设置可输入
+            connection.setDoOutput(true); // 设置该连接是可以输出的
+            connection.setRequestMethod("POST"); // 设置请求方式
+            OutputStream outputStream = connection.getOutputStream();
+            PrintWriter pw = new PrintWriter(outputStream);
+//            pw.write(param);
+            pw.flush();
+            pw.close();
+            InputStream inputStream = connection.getInputStream();
+            Map<String, String> resultMap = new HashMap<>();
+            if (connection.getResponseCode() == 200) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+                BufferedReader br = new BufferedReader(inputStreamReader);
+                String line = null;
+                while ((line = br.readLine()) != null) { // 读取数据
+                    resultMap.putAll((Map) (new JsonParser()).parse(line));
+                }
+            }
+            connection.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

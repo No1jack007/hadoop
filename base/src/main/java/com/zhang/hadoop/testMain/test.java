@@ -1,6 +1,6 @@
 package com.zhang.hadoop.testMain;
 
-import com.zhang.hadoop.util.AES;
+import com.zhang.hadoop.util.AESUtil;
 import com.zhang.hadoop.util.DateUtil;
 import com.zhang.hadoop.util.SecurityUtil;
 import jodd.json.JsonSerializer;
@@ -33,7 +33,7 @@ public class test {
 
 
         String s1 = SecurityUtil.getMd5("123456");
-        String enPsw = AES.encrypt(s1, "vehicle");
+        String enPsw = AESUtil.encrypt(s1, "vehicle");
         System.out.println(enPsw);
 
         //^[A-Z0-9]{18}$|^[0-9]{9}$
@@ -132,5 +132,20 @@ public class test {
             }
         }
         return true;
+    }
+
+    @Test
+    public void test1(){
+        Map<String,List<String>> map=new HashMap<>();
+        List<String> s1=new LinkedList<>();
+        s1.add("n1");
+        s1.add("c1");
+        map.put("s1", s1);
+        List<String> s2=new LinkedList<>();
+        s2.add("n2");
+        s2.add("c2");
+        map.put("s2", s2);
+        String result=new JsonSerializer().deep(true).serialize(map);
+        System.out.println(result);
     }
 }

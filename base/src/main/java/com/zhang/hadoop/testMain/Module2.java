@@ -1156,18 +1156,18 @@ public class Module2 {
             if (isEmpty(content)) {
                 return "";
             }
-            KeyGenerator kgen = KeyGenerator.getInstance("AES");
+            KeyGenerator kgen = KeyGenerator.getInstance("AESUtil");
             SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
             secureRandom.setSeed(password.getBytes());
             kgen.init(128, secureRandom);
             SecretKey secretKey = kgen.generateKey();
             byte[] enCodeFormat = secretKey.getEncoded();
 //            System.out.println(enCodeFormat);
-            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
+            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AESUtil");
             BASE64Encoder coder = new BASE64Encoder();
             coder.encode(enCodeFormat);
 //            System.out.println("coder.encode(enCodeFormat)  ==   "+coder.encode(enCodeFormat));
-            Cipher cipher = Cipher.getInstance("AES");
+            Cipher cipher = Cipher.getInstance("AESUtil");
             byte[] byteContent = content.getBytes("utf-8");
             cipher.init(1, key);
             byte[] result = cipher.doFinal(byteContent);
@@ -1207,14 +1207,14 @@ public class Module2 {
     public static String decrypt(String str, String password) {
         try {
             byte[] content = Base64.decode(str);
-            KeyGenerator kgen = KeyGenerator.getInstance("AES");
+            KeyGenerator kgen = KeyGenerator.getInstance("AESUtil");
             SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
             secureRandom.setSeed(password.getBytes());
             kgen.init(128, secureRandom);
             SecretKey secretKey = kgen.generateKey();
             byte[] enCodeFormat = secretKey.getEncoded();
-            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
-            Cipher cipher = Cipher.getInstance("AES");
+            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AESUtil");
+            Cipher cipher = Cipher.getInstance("AESUtil");
             cipher.init(2, key);
             byte[] result = cipher.doFinal(content);
             return new String(result, "UTF-8");
