@@ -90,8 +90,8 @@ object Test {
     val rdd19=sc.parallelize(List("dog","wolf","cat","bear"),2)
     println("foldByKey"+"\t"+rdd19.map(x=>(x.length,x)).foldByKey("")(_+_).collect().toBuffer)
 
-
-
+    val rdd20=sc.makeRDD(List(("a","1"),("b","2"),("c","3"),("a","2")))
+    println("groupByKey"+"\t"+rdd20.groupByKey().collect().toBuffer)
 
 
 

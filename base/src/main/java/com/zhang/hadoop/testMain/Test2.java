@@ -10,17 +10,24 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author: zhang yufei
  * @create: 2020-04-16 09:16
  **/
 public class Test2 {
+
     public static void main(String args[]) {
         //test1()
         //test2();
         //test3();
-        test4();
+        //test4();
+        //test5();
+        //test6();
+        test7();
+        //test8();
     }
 
     public static void test1() {
@@ -90,4 +97,33 @@ public class Test2 {
         System.out.println(result);
     }
 
+    public static void test5() {
+        final String TIME_1 = "^(((20[0-3][0-9]-(0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|(20[0-3][0-9]-(0[2469]|11)-(0[1-9]|[12][0-9]|30))) (20|21|22|23|[0-1][0-9]):[0-5][0-9]:[0-5][0-9])$";
+        Pattern p = Pattern.compile(TIME_1);
+        Matcher m = p.matcher("    ");
+        System.out.println(m.matches());
+    }
+
+    public static void test6() {
+        String str = "2020-05";
+        System.out.println(str.substring(5, 7));
+    }
+
+    public static void test7() {
+        String s = "1594717263674";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long lt = new Long(s);
+        Date date = new Date(lt);
+        String res = simpleDateFormat.format(date);
+        System.out.println(res);
+    }
+
+    public static void test8(){
+        long nowMillis = System.currentTimeMillis();
+        final Long ACCESS_TOKEN_TIME=10*60L;
+        Long l1=nowMillis + ACCESS_TOKEN_TIME * 1000L;
+        final Long REFRESH_TOKEN_TIME=4*60*60L;
+        Long l2=nowMillis + REFRESH_TOKEN_TIME * 1000L;
+        System.out.println(l1+"\t"+l2);
+    }
 }

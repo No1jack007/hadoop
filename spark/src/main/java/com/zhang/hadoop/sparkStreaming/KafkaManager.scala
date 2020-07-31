@@ -44,6 +44,7 @@ class KafkaManager(val kafkaParams: Map[String, String]) extends Serializable {
 //        ssc, kafkaParams, consumerOffsets, (mmd: MessageAndMetadata[K, V]) => (mmd.key, mmd.message))
     }
     messages
+    null
   }
 
   /**
