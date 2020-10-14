@@ -4,14 +4,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhang.hadoop.util.AESUtil;
 
 import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author: zhang yufei
@@ -26,8 +27,10 @@ public class Test2 {
         //test4();
         //test5();
         //test6();
-        test7();
+        //test7();
         //test8();
+        //test9();
+        test10();
     }
 
     public static void test1() {
@@ -118,12 +121,53 @@ public class Test2 {
         System.out.println(res);
     }
 
-    public static void test8(){
+    public static void test8() {
         long nowMillis = System.currentTimeMillis();
-        final Long ACCESS_TOKEN_TIME=10*60L;
-        Long l1=nowMillis + ACCESS_TOKEN_TIME * 1000L;
-        final Long REFRESH_TOKEN_TIME=4*60*60L;
-        Long l2=nowMillis + REFRESH_TOKEN_TIME * 1000L;
-        System.out.println(l1+"\t"+l2);
+        final Long ACCESS_TOKEN_TIME = 10 * 60L;
+        Long l1 = nowMillis + ACCESS_TOKEN_TIME * 1000L;
+        final Long REFRESH_TOKEN_TIME = 4 * 60 * 60L;
+        Long l2 = nowMillis + REFRESH_TOKEN_TIME * 1000L;
+        System.out.println(l1 + "\t" + l2);
+    }
+
+    public static void test9() {
+        int now = 5;
+        int last = 3;
+        double margin = 10;
+//        NumberFormat numberFormat = NumberFormat.getInstance();
+//        numberFormat.setMaximumFractionDigits(2);
+//        String saleProportion = numberFormat.format((margin/last)*100);
+//        System.out.println(saleProportion);
+        DecimalFormat df = new DecimalFormat("#.00");
+        System.out.println((margin / last) * 100);
+        System.out.println(df.format((margin / last) * 100));
+    }
+
+    public static void test10() {
+        List<Integer> data = new LinkedList<>();
+        for (int i = 0; i < 5; i++) {
+            data.add(i);
+        }
+
+        Integer all = data.size();
+        int size = 10;
+        int limit = all / size;
+        System.out.println(limit);
+        if (limit < 1) {
+            limit = 1;
+        }
+        List<List<Integer>> groupData = Stream.iterate(0, n -> n + 1).limit(10).parallel().map(a -> {
+            List<Integer> sendList = data.stream().skip(a * size).limit(size).parallel().collect(Collectors.toList());
+            return sendList;
+        }).collect(Collectors.toList());
+        for (List<Integer> list : groupData) {
+            for (Integer i : list) {
+                System.out.print(i + "\t");
+            }
+            System.out.println();
+        }
+        Stream.iterate(0, n -> n + 1).limit(1).forEach(a->{
+            System.out.println(a);
+        });
     }
 }

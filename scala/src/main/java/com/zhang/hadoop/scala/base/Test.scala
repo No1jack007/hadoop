@@ -13,7 +13,7 @@ object Test {
     for (i <- 1 to 3) {
       println(i);
     }
-    for (i <- 1 until 3) {
+    for (i <- 1 to 1) {
       println(i);
     }
     println(1 - (10));

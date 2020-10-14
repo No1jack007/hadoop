@@ -155,4 +155,12 @@ public class test {
         String result=new JsonSerializer().deep(true).serialize(map);
         System.out.println(result);
     }
+
+    @Test
+    public void test2(){
+        String code="001PBANC000001A6F1000003 ";
+        Pattern p = Pattern.compile("^[A-Z0-9]{24}$");
+        Matcher m = p.matcher(code);
+        System.out.println(m.matches());
+    }
 }
