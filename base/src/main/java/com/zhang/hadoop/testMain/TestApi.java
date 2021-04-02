@@ -32,7 +32,7 @@ public class TestApi {
      * 主机厂平台地址
      * 此地址改为系统部署后的映射地址，以下地址位北理工对外地址，可首次测试使用
      */
-    public static String ip1 = "http://127.0.0.1:8993";
+    public static String ip1 = "http://10.11.9.14:8993";
     //主机厂调用接口令牌，由乙方技术支持提供，且需由甲方提供主机厂全称及统一厂商社会信用代码
     public static String vehicle_token = "C3kNIVJWfOxLkRDydrJXsA4ff6oMaTOP";
     //主机厂调用接口密钥，由乙方技术支持提供
@@ -45,11 +45,11 @@ public class TestApi {
     public static void main(String args[]) {
         long start = System.currentTimeMillis();
         //1.电池厂电池生产
-        //createBattery();
+        createBattery();
         //2.主机厂车辆生产
         //createVehicle();
         //3.主机厂车辆销售
-        //createSale();
+        createSale();
         //4.电池厂售后
         //createRepairBattery();
         //5.主机厂维修
@@ -64,31 +64,31 @@ public class TestApi {
         //createReplaceBattery();
         //10.主机厂车辆换电记录
         //createReplaceBatteryRecord();
-        //11.主机厂车辆换电维修
-        //createReplaceRepair();
+        //11.主机厂车辆换电出库
+        //createReplaceStorageOut();
         //12.主机厂车辆换电退役
         //createReplaceRetire();
         //13.电池厂电池退役
         //createRetireFactory();
         //testLogin();
         //请求政府上报数量
-        requestProduceSaleData();
+        //requestProduceSaleData();
         long end = System.currentTimeMillis();
         System.out.println("完成" + (end - start));
     }
 
     public static void createBattery() {
         List<String> cellList1=new ArrayList<>();
-        cellList1.add("C00000000000000000000000");
+        cellList1.add("C00000000000000000000003");
         Map<String,Object> module1=new HashMap<>();
-        module1.put("code","M00000000000000000000000");
+        module1.put("code","M00000000000000000000003");
         module1.put("cellList",cellList1);
         module1.put("modelId","zhangM");
         module1.put("cellModelId","zhangC");
         List<Map<String,Object>> moduleList1=new ArrayList<>();
         moduleList1.add(module1);
         Map<String, Object> pack1 = new HashMap<>();
-        pack1.put("code", "P00000000000000000000000");
+        pack1.put("code", "P00000000000000000000003");
         pack1.put("moduleList",moduleList1);
         pack1.put("serial", "1");
         pack1.put("modelId", "zhangP");
@@ -104,9 +104,9 @@ public class TestApi {
 
     public static void createVehicle() {
         List<String> packList = new ArrayList<>();
-        packList.add("P00000000000000000000000");
+        packList.add("P00000000000000000000003");
         Map<String, Object> vinMap = new HashMap<>();
-        vinMap.put("vin", "V0000000000000000");
+        vinMap.put("vin", "V0000000000000003");
         vinMap.put("vehModelName", "zhangV");
         vinMap.put("packCodeList", packList);
         vinMap.put("systemCode", "S00000000000000000000000");
@@ -126,7 +126,7 @@ public class TestApi {
     public static void createSale() {
         List<Map<String, Object>> vehicleList = new ArrayList<>();
         Map<String, Object> vehicle = new HashMap<>();
-        vehicle.put("vin", "V0000000000000000");
+        vehicle.put("vin", "V0000000000000003");
         vehicle.put("licensePlate", "京BZ0418");
         vehicle.put("vehTypeName", "111808");
         vehicle.put("saleTime", "2018-01-05");
@@ -231,8 +231,27 @@ public class TestApi {
         pack1.put("modelId", "zhangP");
         pack1.put("replaceUnitCode", "123456789123456789");
         pack1.put("replaceUnitName", "换电厂");
+
+        List<String> cellList2=new ArrayList<>();
+        cellList2.add("C00000000000000000000002");
+        Map<String,Object> module2=new HashMap<>();
+        module2.put("code","M00000000000000000000002");
+        module2.put("cellList",cellList2);
+        module2.put("modelId","zhangM");
+        module2.put("cellModelId","zhangC");
+        List<Map<String,Object>> moduleList2=new ArrayList<>();
+        moduleList2.add(module2);
+        Map<String, Object> pack2 = new HashMap<>();
+        pack2.put("code", "P00000000000000000000002");
+        pack2.put("inStorageDate", "2018-08-18");
+        pack2.put("moduleList",moduleList2);
+        pack2.put("modelId", "zhangP");
+        pack2.put("replaceUnitCode", "123456789123456789");
+        pack2.put("replaceUnitName", "换电厂");
+
         List<Map<String, Object>> packList = new ArrayList<>();
         packList.add(pack1);
+        packList.add(pack2);
         HttpResponse response = send(ip1 + "/bitnei/v1.0/battery/replaceBattery/receiveReplaceBattery", packList, vehicle_token, vehicle_key);
         String result = parsToMap(response, vehicle_key);
         System.out.println(result);
@@ -249,6 +268,40 @@ public class TestApi {
         List<Map<String, Object>> recordList = new ArrayList<>();
         recordList.add(record1);
         HttpResponse response = send(ip1 + "/bitnei/v1.0/battery/replaceBattery/receiveReplaceBatteryRecord", recordList, vehicle_token, vehicle_key);
+        String result = parsToMap(response, vehicle_key);
+        System.out.println(result);
+    }
+
+    public static void createReplaceStorageOut(){
+        Map<String,Object> record=new HashMap<>();
+        record.put("code","P00000000000000000000002");
+        record.put("storageOutDate","2020-10-14");
+        record.put("replaceUnitCode","123456789123456789");
+        record.put("replaceUnitName","换电厂");
+        record.put("whereaboutsCode","123456789111111111");
+        record.put("whereaboutsName","换电出库单位");
+        List<Map<String, Object>> recordList = new ArrayList<>();
+        recordList.add(record);
+        HttpResponse response = send(ip1 + "/bitnei/v1.0/battery/replaceBattery/ReplaceBatteryOut", recordList, vehicle_token, vehicle_key);
+        String result = parsToMap(response, vehicle_key);
+        System.out.println(result);
+    }
+
+    public static void createReplaceRetire(){
+        Map<String,Object> record=new HashMap<>();
+        record.put("code", "P00000000000000000000002");
+        record.put("whereaboutsCode", "123456789123412341");
+        record.put("whereaboutsName", "维修厂");
+        record.put("retireDate", "2018-01-05");
+        record.put("batterySpecies", "P");
+        record.put("retireUnitCode", "123456789123123123");
+        record.put("retireUnitName", "换电退役厂商");
+        record.put("factoryType", "4");
+        record.put("batteryType", "A");
+        record.put("batteryWeight", "2.5");
+        List<Map<String, Object>> recordList = new ArrayList<>();
+        recordList.add(record);
+        HttpResponse response = send(ip1 + "/bitnei/v1.0/battery/replaceBattery/receiveBatteryRetired", recordList, vehicle_token, vehicle_key);
         String result = parsToMap(response, vehicle_key);
         System.out.println(result);
     }

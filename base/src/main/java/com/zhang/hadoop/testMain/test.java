@@ -163,4 +163,32 @@ public class test {
         Matcher m = p.matcher(code);
         System.out.println(m.matches());
     }
+
+    public static boolean isCarNo(String carNo){
+        Pattern p = Pattern.compile("^([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z0-9]{5,7}|[0-9]{6})[A-Z0-9挂学警港澳使领]{1}$|^民航[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼A-Z]{1}[A-Z0-9]{4,5}$");
+        Matcher m = p.matcher(carNo);
+        if (!m.matches()){
+            return false;
+        }
+        return true;
+    }
+
+    @Test
+    public void test3(){
+        String carNo="民航A103J";
+        System.out.println(isCarNo(carNo));
+    }
+
+    @Test
+    public void test6(){
+        int a=0;
+        for(int i=2;i<=100;i++){
+            if((i%2)==0){
+                a=a+i;
+            }else{
+                a=a-i;
+            }
+        }
+        System.out.println(a);
+    }
 }

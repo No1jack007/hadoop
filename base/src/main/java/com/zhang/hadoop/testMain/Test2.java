@@ -2,6 +2,7 @@ package com.zhang.hadoop.testMain;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zhang.hadoop.util.AESUtil;
+import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
@@ -30,7 +31,7 @@ public class Test2 {
         //test7();
         //test8();
         //test9();
-        test10();
+        //test10();
     }
 
     public static void test1() {
@@ -143,31 +144,41 @@ public class Test2 {
         System.out.println(df.format((margin / last) * 100));
     }
 
-    public static void test10() {
+    @Test
+    public void test10() {
         List<Integer> data = new LinkedList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 1; i <= 5; i++) {
             data.add(i);
         }
 
         Integer all = data.size();
         int size = 10;
         int limit = all / size;
-        System.out.println(limit);
-        if (limit < 1) {
-            limit = 1;
+        if ((all % size) != 0) {
+            limit = limit + 1;
         }
-        List<List<Integer>> groupData = Stream.iterate(0, n -> n + 1).limit(10).parallel().map(a -> {
-            List<Integer> sendList = data.stream().skip(a * size).limit(size).parallel().collect(Collectors.toList());
+        System.out.println(limit);
+        List<List<Integer>> groupData = Stream.iterate(0, n -> n + 1).limit(limit).map(a -> {
+            System.out.println(a);
+            List<Integer> sendList = data.stream().skip(a * size).limit(size).collect(Collectors.toList());
             return sendList;
         }).collect(Collectors.toList());
         for (List<Integer> list : groupData) {
             for (Integer i : list) {
                 System.out.print(i + "\t");
             }
-            System.out.println();
+            System.out.println("------");
         }
-        Stream.iterate(0, n -> n + 1).limit(1).forEach(a->{
-            System.out.println(a);
-        });
+//        Stream.iterate(0, n -> n + 1).limit(1).forEach(a->{
+//            System.out.println(a);
+//        });
+    }
+
+    @Test
+    public void test11() {
+        String code = "123456781234567812345678";
+        Pattern p = Pattern.compile("^[A-Z0-9]{24}$");
+        Matcher m = p.matcher(code);
+        System.out.println(m.matches());
     }
 }
