@@ -23,7 +23,7 @@ spring:
     validation-query: SELECT 1
     test-on-borrow: false
     jdbc-interceptors: ConnectionState;SlowQueryReport(threshold=3000)
-hbase:
+hbase:redisson-delayedservice.yml
   zookeeper:
     quorum: hadoop1-1
     port: 2181

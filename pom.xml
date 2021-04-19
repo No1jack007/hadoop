@@ -98,6 +98,7 @@
         <module>spring-cloud-security-member</module>
         <module>spring-cloud-base</module>
         <module>data-base</module>
+        <module>thrift</module>
     </modules>
 
     <build>

@@ -181,4 +181,19 @@ public class Test2 {
         Matcher m = p.matcher(code);
         System.out.println(m.matches());
     }
+
+    @Test
+    public void test12(){
+        int a=1000;
+        int b=50;
+        System.out.println(a%b+1);
+    }
+
+    @Test
+    public void test13(){
+        int a=0;
+        synchronized (this){
+            a++;
+        }
+    }
 }
