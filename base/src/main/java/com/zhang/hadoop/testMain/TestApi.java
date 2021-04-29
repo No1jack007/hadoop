@@ -1,5 +1,7 @@
 package com.zhang.hadoop.testMain;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhang.hadoop.util.BASE64Encoder;
 import com.zhang.hadoop.util.Base64;
@@ -12,15 +14,14 @@ import org.springframework.util.StringUtils;
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
+import java.lang.reflect.MalformedParameterizedTypeException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author: zhang yufei
@@ -33,23 +34,27 @@ public class TestApi {
      * 此地址改为系统部署后的映射地址，以下地址位北理工对外地址，可首次测试使用
      */
     public static String ip1 = "http://10.11.9.14:8993";
+
     //主机厂调用接口令牌，由乙方技术支持提供，且需由甲方提供主机厂全称及统一厂商社会信用代码
     public static String vehicle_token = "C3kNIVJWfOxLkRDydrJXsA4ff6oMaTOP";
+
     //主机厂调用接口密钥，由乙方技术支持提供
     public static String vehicle_key = "U2TohGfvuck0v5Xa";
+
     //电池厂调用接口令牌，由乙方技术支持提供，且需由甲方提供电池厂全称及统一厂商社会信用代码
     public static String factory_token = "pOAJJSBmAThb8kPJh4VAX+zs/YAHFqxd";
+
     //电池厂调用接口密钥，由乙方技术支持提供
     public static String factory_key = "vAREamtPvwanVe2M";
 
     public static void main(String args[]) {
         long start = System.currentTimeMillis();
         //1.电池厂电池生产
-        createBattery();
+        //createBattery();
         //2.主机厂车辆生产
         //createVehicle();
         //3.主机厂车辆销售
-        createSale();
+        //createSale();
         //4.电池厂售后
         //createRepairBattery();
         //5.主机厂维修
@@ -73,23 +78,25 @@ public class TestApi {
         //testLogin();
         //请求政府上报数量
         //requestProduceSaleData();
+        testPost();
+
         long end = System.currentTimeMillis();
         System.out.println("完成" + (end - start));
     }
 
     public static void createBattery() {
-        List<String> cellList1=new ArrayList<>();
+        List<String> cellList1 = new ArrayList<>();
         cellList1.add("C00000000000000000000003");
-        Map<String,Object> module1=new HashMap<>();
-        module1.put("code","M00000000000000000000003");
-        module1.put("cellList",cellList1);
-        module1.put("modelId","zhangM");
-        module1.put("cellModelId","zhangC");
-        List<Map<String,Object>> moduleList1=new ArrayList<>();
+        Map<String, Object> module1 = new HashMap<>();
+        module1.put("code", "M00000000000000000000003");
+        module1.put("cellList", cellList1);
+        module1.put("modelId", "zhangM");
+        module1.put("cellModelId", "zhangC");
+        List<Map<String, Object>> moduleList1 = new ArrayList<>();
         moduleList1.add(module1);
         Map<String, Object> pack1 = new HashMap<>();
         pack1.put("code", "P00000000000000000000003");
-        pack1.put("moduleList",moduleList1);
+        pack1.put("moduleList", moduleList1);
         pack1.put("serial", "1");
         pack1.put("modelId", "zhangP");
         pack1.put("systemId", "S001");
@@ -116,7 +123,7 @@ public class TestApi {
         vinMap.put("vehicleType", "1");
         List<Map<String, Object>> vinList = new ArrayList<>();
         vinList.add(vinMap);
-        Map<String,Object> data=new HashMap<>();
+        Map<String, Object> data = new HashMap<>();
         data.put("vinList", vinList);
         HttpResponse response = send(ip1 + "/bitnei/v1.0/battery/vehicle/receiveVehicleProduce", data, vehicle_token, vehicle_key);
         String result = parsToMap(response, vehicle_key);
@@ -131,8 +138,8 @@ public class TestApi {
         vehicle.put("vehTypeName", "111808");
         vehicle.put("saleTime", "2018-01-05");
         vehicle.put("saleArea", "北京市昌平区");
-//        vehicle.put("ownerName", "张君宝");
-//        vehicle.put("Idnum","150204197111111810");
+        //        vehicle.put("ownerName", "张君宝");
+        //        vehicle.put("Idnum","150204197111111810");
         vehicle.put("epname", "吉利汽车");
         vehicle.put("epaddress", "北京市");
         vehicle.put("epcode", "123456789123456789");
@@ -186,21 +193,21 @@ public class TestApi {
 
     public static void createFactoryRepair() {
         //电池单体
-        Map<String,Object> cell2=new HashMap<String,Object>();
-        cell2.put("code","C311R2");
-        cell2.put("type","C");
-        List<Map<String,Object>> cellList2=new ArrayList<Map<String,Object>>();
+        Map<String, Object> cell2 = new HashMap<String, Object>();
+        cell2.put("code", "C311R2");
+        cell2.put("type", "C");
+        List<Map<String, Object>> cellList2 = new ArrayList<Map<String, Object>>();
         cellList2.add(cell2);
         //电池模组
-        Map<String,Object> module2=new HashMap<String,Object>();
-        module2.put("code","M310R2");
-        module2.put("childCodeList",cellList2);
-        module2.put("modelId","zhangM");
-        module2.put("type","M");
-        module2.put("orderCode","234567898765");
-        List<Map<String,Object>> repairList=new ArrayList<Map<String,Object>>();
+        Map<String, Object> module2 = new HashMap<String, Object>();
+        module2.put("code", "M310R2");
+        module2.put("childCodeList", cellList2);
+        module2.put("modelId", "zhangM");
+        module2.put("type", "M");
+        module2.put("orderCode", "234567898765");
+        List<Map<String, Object>> repairList = new ArrayList<Map<String, Object>>();
         //车辆电池数据集
-        Map<String,Object> repair=new HashMap<String,Object>();
+        Map<String, Object> repair = new HashMap<String, Object>();
         repair.put("vin", "LGWEESK55SHE6CYMD");
         repair.put("replaceDate", "2018-01-05");
         repair.put("oldCode", "LP-HM-1");
@@ -214,37 +221,37 @@ public class TestApi {
         System.out.println(result);
     }
 
-    public static void createReplaceBattery(){
-        List<String> cellList1=new ArrayList<>();
+    public static void createReplaceBattery() {
+        List<String> cellList1 = new ArrayList<>();
         cellList1.add("C00000000000000000000001");
-        Map<String,Object> module1=new HashMap<>();
-        module1.put("code","M00000000000000000000001");
-        module1.put("cellList",cellList1);
-        module1.put("modelId","zhangM");
-        module1.put("cellModelId","zhangC");
-        List<Map<String,Object>> moduleList1=new ArrayList<>();
+        Map<String, Object> module1 = new HashMap<>();
+        module1.put("code", "M00000000000000000000001");
+        module1.put("cellList", cellList1);
+        module1.put("modelId", "zhangM");
+        module1.put("cellModelId", "zhangC");
+        List<Map<String, Object>> moduleList1 = new ArrayList<>();
         moduleList1.add(module1);
         Map<String, Object> pack1 = new HashMap<>();
         pack1.put("code", "P00000000000000000000001");
         pack1.put("inStorageDate", "2018-08-18");
-        pack1.put("moduleList",moduleList1);
+        pack1.put("moduleList", moduleList1);
         pack1.put("modelId", "zhangP");
         pack1.put("replaceUnitCode", "123456789123456789");
         pack1.put("replaceUnitName", "换电厂");
 
-        List<String> cellList2=new ArrayList<>();
+        List<String> cellList2 = new ArrayList<>();
         cellList2.add("C00000000000000000000002");
-        Map<String,Object> module2=new HashMap<>();
-        module2.put("code","M00000000000000000000002");
-        module2.put("cellList",cellList2);
-        module2.put("modelId","zhangM");
-        module2.put("cellModelId","zhangC");
-        List<Map<String,Object>> moduleList2=new ArrayList<>();
+        Map<String, Object> module2 = new HashMap<>();
+        module2.put("code", "M00000000000000000000002");
+        module2.put("cellList", cellList2);
+        module2.put("modelId", "zhangM");
+        module2.put("cellModelId", "zhangC");
+        List<Map<String, Object>> moduleList2 = new ArrayList<>();
         moduleList2.add(module2);
         Map<String, Object> pack2 = new HashMap<>();
         pack2.put("code", "P00000000000000000000002");
         pack2.put("inStorageDate", "2018-08-18");
-        pack2.put("moduleList",moduleList2);
+        pack2.put("moduleList", moduleList2);
         pack2.put("modelId", "zhangP");
         pack2.put("replaceUnitCode", "123456789123456789");
         pack2.put("replaceUnitName", "换电厂");
@@ -257,10 +264,10 @@ public class TestApi {
         System.out.println(result);
     }
 
-    public static void createReplaceBatteryRecord(){
-        Map<String, Object> record1= new HashMap<>();
+    public static void createReplaceBatteryRecord() {
+        Map<String, Object> record1 = new HashMap<>();
         record1.put("vin", "V0000000000000000");
-        record1.put("newCode","P00000000000000000000001");
+        record1.put("newCode", "P00000000000000000000001");
         record1.put("oldCode", "P00000000000000000000000");
         record1.put("replaceDate", "2020-08-18 17:33:42");
         record1.put("replaceUnitCode", "123456789123456789");
@@ -272,14 +279,14 @@ public class TestApi {
         System.out.println(result);
     }
 
-    public static void createReplaceStorageOut(){
-        Map<String,Object> record=new HashMap<>();
-        record.put("code","P00000000000000000000002");
-        record.put("storageOutDate","2020-10-14");
-        record.put("replaceUnitCode","123456789123456789");
-        record.put("replaceUnitName","换电厂");
-        record.put("whereaboutsCode","123456789111111111");
-        record.put("whereaboutsName","换电出库单位");
+    public static void createReplaceStorageOut() {
+        Map<String, Object> record = new HashMap<>();
+        record.put("code", "P00000000000000000000002");
+        record.put("storageOutDate", "2020-10-14");
+        record.put("replaceUnitCode", "123456789123456789");
+        record.put("replaceUnitName", "换电厂");
+        record.put("whereaboutsCode", "123456789111111111");
+        record.put("whereaboutsName", "换电出库单位");
         List<Map<String, Object>> recordList = new ArrayList<>();
         recordList.add(record);
         HttpResponse response = send(ip1 + "/bitnei/v1.0/battery/replaceBattery/ReplaceBatteryOut", recordList, vehicle_token, vehicle_key);
@@ -287,8 +294,8 @@ public class TestApi {
         System.out.println(result);
     }
 
-    public static void createReplaceRetire(){
-        Map<String,Object> record=new HashMap<>();
+    public static void createReplaceRetire() {
+        Map<String, Object> record = new HashMap<>();
         record.put("code", "P00000000000000000000002");
         record.put("whereaboutsCode", "123456789123412341");
         record.put("whereaboutsName", "维修厂");
@@ -306,14 +313,13 @@ public class TestApi {
         System.out.println(result);
     }
 
-    public static void requestProduceSaleData(){
-        Map<String, Object> request= new HashMap<>();
+    public static void requestProduceSaleData() {
+        Map<String, Object> request = new HashMap<>();
         request.put("creditCode", "123456");
-        HttpResponse response = send("http://127.0.0.1:8004" + "/bitnei/api/governmentData/getProduceSaleData", request, "82454fbeea5840d8897f3a76e6a7df16", "5eafb3f2fcbf4cff","82229f89b61f4331");
+        HttpResponse response = send("http://127.0.0.1:8004" + "/bitnei/api/governmentData/getProduceSaleData", request, "82454fbeea5840d8897f3a76e6a7df16", "5eafb3f2fcbf4cff", "82229f89b61f4331");
         String result = parsToMap(response, "5eafb3f2fcbf4cff");
         System.out.println(result);
     }
-
 
     public static HttpResponse send(String url, Object data, String token, String key) {
         try {
@@ -332,7 +338,7 @@ public class TestApi {
         return null;
     }
 
-    public static HttpResponse send(String url, Object data, String token, String key,String signKey) {
+    public static HttpResponse send(String url, Object data, String token, String key, String signKey) {
         try {
             Map<String, Object> requestMap = new HashMap<String, Object>();
             String requestMsg = new JsonSerializer().deep(true).serialize(data);
@@ -475,38 +481,57 @@ public class TestApi {
         request.header("Content-Type", "application/json;charset=utf-8");
         request.acceptEncoding("gzip");
         request.body((new JsonSerializer()).serialize(params));
-//        System.out.println((new JsonSerializer()).serialize(params));
+        //        System.out.println((new JsonSerializer()).serialize(params));
         return request;
     }
 
-    public static void testLogin(){
-        String url1="http://127.0.0.1:8993/admin/login";
+    public static void testPost() {
+        String url1 = "http://127.0.0.1:8080/delay/message/receive";
+        for (int i = 0; i < 1000; i++) {
+            JSONObject param = new JSONObject();
+            param.put("businessKey", "mot_growth");
+            param.put("content", "test");
+            param.put("msgForwardingConfigId", 1);
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.add("2021-04-25 15:30:00");
+            param.put("sendTimeList", jsonArray);
+            send(url1, param);
+        }
+    }
+
+    public static void send(String url1, JSONObject param) {
         try {
+            //创建连接
             URL url = new URL(url1);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true); // 设置可输入
-            connection.setDoOutput(true); // 设置该连接是可以输出的
-            connection.setRequestMethod("POST"); // 设置请求方式
-            OutputStream outputStream = connection.getOutputStream();
-            PrintWriter pw = new PrintWriter(outputStream);
-//            pw.write(param);
-            pw.flush();
-            pw.close();
-            InputStream inputStream = connection.getInputStream();
-            Map<String, String> resultMap = new HashMap<>();
-            if (connection.getResponseCode() == 200) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
-                BufferedReader br = new BufferedReader(inputStreamReader);
-                String line = null;
-                while ((line = br.readLine()) != null) { // 读取数据
-                    resultMap.putAll((Map) (new JsonParser()).parse(line));
-                }
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            connection.setRequestMethod("POST");
+            connection.setUseCaches(false);
+            connection.setInstanceFollowRedirects(true);
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.connect();
+            // POST请求
+            DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+            String json = param.toString();
+            out.writeBytes(json);
+            out.flush();
+            out.close();
+            // 读取响应
+            BufferedReader reader = new BufferedReader(new
+                    InputStreamReader(connection.getInputStream()));
+            String lines;
+            StringBuffer sb = new StringBuffer("");
+            while ((lines = reader.readLine()) != null) {
+                lines = URLDecoder.decode(lines, "utf-8");
+                sb.append(lines);
             }
+            System.out.println(sb);
+            reader.close();
+            // 断开连接
             connection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
 }

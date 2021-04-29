@@ -196,4 +196,37 @@ public class Test2 {
             a++;
         }
     }
+
+    @Test
+    public void test14(){
+        System.out.println(String.format("%02d", 7));
+    }
+
+    @Test
+    public void test15(){
+        String s1="corn-job_01";
+        String s2="corn-job";
+        String s3 = s1.substring(s2.length()+1);
+        System.out.println(s3);
+    }
+
+    @Test
+    public void test16(){
+        int a=20;
+        int b=10;
+        int c=2;
+        for(int i=0;i<1000;i++){
+            System.out.print("数值-");
+            System.out.print(i+"\t");
+            System.out.print("队列-");
+            System.out.print(i%a+1+"\t");
+            System.out.print("数据表-");
+            System.out.print(i%b+1+"\t");
+            System.out.print("数据库-");
+            System.out.print(i%c+1+"\t");
+            System.out.println();
+        }
+    }
+
+
 }
