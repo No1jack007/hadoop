@@ -487,13 +487,13 @@ public class TestApi {
 
     public static void testPost() {
         String url1 = "http://127.0.0.1:8080/delay/message/receive";
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 3000; i++) {
             JSONObject param = new JSONObject();
             param.put("businessKey", "mot_growth");
             param.put("content", "test");
             param.put("msgForwardingConfigId", 1);
             JSONArray jsonArray = new JSONArray();
-            jsonArray.add("2021-04-25 15:30:00");
+            jsonArray.add("2021-04-30 11:11:11");
             param.put("sendTimeList", jsonArray);
             send(url1, param);
         }

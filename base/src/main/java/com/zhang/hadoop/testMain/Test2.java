@@ -4,12 +4,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhang.hadoop.util.AESUtil;
 import org.junit.Test;
 
+import javax.swing.*;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -135,10 +139,10 @@ public class Test2 {
         int now = 5;
         int last = 3;
         double margin = 10;
-//        NumberFormat numberFormat = NumberFormat.getInstance();
-//        numberFormat.setMaximumFractionDigits(2);
-//        String saleProportion = numberFormat.format((margin/last)*100);
-//        System.out.println(saleProportion);
+        //        NumberFormat numberFormat = NumberFormat.getInstance();
+        //        numberFormat.setMaximumFractionDigits(2);
+        //        String saleProportion = numberFormat.format((margin/last)*100);
+        //        System.out.println(saleProportion);
         DecimalFormat df = new DecimalFormat("#.00");
         System.out.println((margin / last) * 100);
         System.out.println(df.format((margin / last) * 100));
@@ -169,9 +173,9 @@ public class Test2 {
             }
             System.out.println("------");
         }
-//        Stream.iterate(0, n -> n + 1).limit(1).forEach(a->{
-//            System.out.println(a);
-//        });
+        //        Stream.iterate(0, n -> n + 1).limit(1).forEach(a->{
+        //            System.out.println(a);
+        //        });
     }
 
     @Test
@@ -183,50 +187,108 @@ public class Test2 {
     }
 
     @Test
-    public void test12(){
-        int a=1000;
-        int b=50;
-        System.out.println(a%b+1);
+    public void test12() {
+        int a = 11;
+        int b = 20;
+        System.out.println(a % b + 1);
     }
 
     @Test
-    public void test13(){
-        int a=0;
-        synchronized (this){
+    public void test13() {
+        int a = 0;
+        synchronized (this) {
             a++;
         }
     }
 
     @Test
-    public void test14(){
+    public void test14() {
         System.out.println(String.format("%02d", 7));
     }
 
     @Test
-    public void test15(){
-        String s1="corn-job_01";
-        String s2="corn-job";
-        String s3 = s1.substring(s2.length()+1);
+    public void test15() {
+        String s1 = "corn-job_01";
+        String s2 = "corn-job";
+        String s3 = s1.substring(s2.length() + 1);
         System.out.println(s3);
     }
 
     @Test
-    public void test16(){
-        int a=20;
-        int b=10;
-        int c=2;
-        for(int i=0;i<1000;i++){
+    public void test16() {
+        int a = 20;
+        int b = 10;
+        int c = 2;
+        for (int i = 0; i < 1000; i++) {
             System.out.print("数值-");
-            System.out.print(i+"\t");
+            System.out.print(i + "\t");
             System.out.print("队列-");
-            System.out.print(i%a+1+"\t");
+            System.out.print(i % a + 1 + "\t");
             System.out.print("数据表-");
-            System.out.print(i%b+1+"\t");
+            System.out.print(i % b + 1 + "\t");
             System.out.print("数据库-");
-            System.out.print(i%c+1+"\t");
+            System.out.print(i % c + 1 + "\t");
             System.out.println();
         }
     }
 
+    @Test
+    public void test17() {
+        int a = 10;
+        int b = 25;
+        for (int i = 0; i < b; i++) {
+            System.out.println("分片编号：" + i + "\t所属队列：" + (i % a + 1));
+        }
 
+        System.out.println("----");
+
+        int c = 25;
+        int d = 10;
+        for (int i = 0; i < c; i++) {
+            System.out.println("分片编号：" + (i % a) + "\t所属队列：" + (i + 1));
+        }
+
+        System.out.println("----");
+
+        int f = 25;
+        int j = 10;
+        for (int i = 0; i < j; i++) {
+            System.out.print("分片编号：" + i);
+            int e = i;
+            boolean flag = true;
+            while (flag) {
+                if (e < f) {
+                    System.out.print("\t队列编号：" + (e + 1));
+                    e = e + j;
+                } else {
+                    flag = false;
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    @Test
+    public void test18() {
+        Map<String, Object> map = new ConcurrentHashMap<>();
+        for (int i = 1; i <= 100; i++) {
+            map.put(i + "", "key");
+        }
+        for (String key : map.keySet()) {
+            System.out.println(key);
+        }
+    }
+
+    @Test
+    public void test19() {
+        //获得当前时间
+        Instant instant = Instant.now();
+        // 以ISO-8601输出
+        System.out.println(instant);
+        System.out.println(instant.toString());
+        System.out.println(instant.toEpochMilli());
+        System.out.println(instant.getNano());
+        System.out.println(instant.atOffset(ZoneOffset.ofHours(8)).toString());
+        System.out.println(Instant.parse("2007-12-03T10:15:30.00Z"));
+    }
 }
