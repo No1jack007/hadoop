@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -290,5 +291,25 @@ public class Test2 {
         System.out.println(instant.getNano());
         System.out.println(instant.atOffset(ZoneOffset.ofHours(8)).toString());
         System.out.println(Instant.parse("2007-12-03T10:15:30.00Z"));
+    }
+
+    @Test
+    public void test20() {
+        System.out.println(10%0);
+    }
+
+    @Test
+    public void test22() {
+        AtomicInteger counter=new AtomicInteger(0);
+        for(int i=0;i<3000;i++){
+            System.out.println(counter.incrementAndGet());
+        }
+    }
+
+    @Test
+    public void test23() {
+        AtomicInteger counter=new AtomicInteger(0);
+        System.out.println(counter.addAndGet(10));
+        System.out.println(String.format("%s-%s","persistent://op/growth/waiting_update_delay_message_status","growth"));
     }
 }

@@ -78,7 +78,8 @@ public class TestApi {
         //testLogin();
         //请求政府上报数量
         //requestProduceSaleData();
-        testPost();
+        //testPost();
+        testThread();
 
         long end = System.currentTimeMillis();
         System.out.println("完成" + (end - start));
@@ -485,9 +486,17 @@ public class TestApi {
         return request;
     }
 
+    public static void testThread() {
+        for (int i = 0; i < 10; i++) {
+            Thread thread = new Thread(() -> testPost());
+            thread.start();
+        }
+    }
+
     public static void testPost() {
-        String url1 = "http://127.0.0.1:8080/delay/message/receive";
-        for (int i = 0; i < 3000; i++) {
+        //String url1 = "http://127.0.0.1:8080/delay/message/receive";
+        String url1 = "http://op-delayedservice-delaymessage.zpidc.com/delay/message/receive";
+        for (int i = 0; i < 300; i++) {
             JSONObject param = new JSONObject();
             param.put("businessKey", "mot_growth");
             param.put("content", "test");
@@ -526,7 +535,7 @@ public class TestApi {
                 lines = URLDecoder.decode(lines, "utf-8");
                 sb.append(lines);
             }
-            System.out.println(sb);
+            //System.out.println(sb);
             reader.close();
             // 断开连接
             connection.disconnect();
