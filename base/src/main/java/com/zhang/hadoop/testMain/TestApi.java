@@ -79,7 +79,10 @@ public class TestApi {
         //请求政府上报数量
         //requestProduceSaleData();
         //testPost();
-        testThread();
+        //testThread();
+        //testPost_cancel();
+
+        tests_jobListForSearchAggregatedCaption();
 
         long end = System.currentTimeMillis();
         System.out.println("完成" + (end - start));
@@ -535,7 +538,7 @@ public class TestApi {
                 lines = URLDecoder.decode(lines, "utf-8");
                 sb.append(lines);
             }
-            //System.out.println(sb);
+            System.out.println(sb);
             reader.close();
             // 断开连接
             connection.disconnect();
@@ -543,4 +546,26 @@ public class TestApi {
             e.printStackTrace();
         }
     }
+
+    public static void testPost_cancel() {
+        String url1 = "http://op-delayedservice-delaymessage.zpidc.com/delay/message/cancel";
+        JSONObject param = new JSONObject();
+        param.put("delayMsgMo", "00001797e4887644019b9000738154e2c71");
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add("2021-05-30 11:11:11");
+        param.put("sendTimeList", jsonArray);
+        send(url1, param);
+    }
+
+    public static void tests_jobListForSearchAggregatedCaption(){
+        String url1 = "http://b-caption-jobcaption.zpidc.com/jobcaption/captionService/list";
+        JSONObject param = new JSONObject();
+        param.put("type", "jobListForSearchAggregatedCaption");
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add("CZ526746480J00142333001");
+        param.put("ids", jsonArray);
+        send(url1, param);
+    }
+
+
 }

@@ -211,7 +211,7 @@ public class Test2 {
     public void test15() {
         String s1 = "corn-job_01";
         String s2 = "corn-job";
-        String s3 = s1.substring(s2.length() + 1);
+        String s3 = s1.substring(s2.length() + 1,s1.length());
         System.out.println(s3);
     }
 
@@ -311,5 +311,50 @@ public class Test2 {
         AtomicInteger counter=new AtomicInteger(0);
         System.out.println(counter.addAndGet(10));
         System.out.println(String.format("%s-%s","persistent://op/growth/waiting_update_delay_message_status","growth"));
+    }
+
+    @Test
+    public void test24(){
+        List<String> list = new ArrayList<String>();
+        list.add("abc2003");
+        list.add("abc2005");
+        list.add("abc2001");
+        list.add("abc2007");
+        System.out.println(list);
+
+        Collections.sort(list, (o1, o2) -> {
+            // 返回相反的compare
+            String no1=o1.substring(4,7);
+            System.out.println(no1);
+            String no2=o2.substring(4,7);
+            System.out.println(no2);
+            return no1.compareTo(no2);
+        });
+        System.out.println(list);
+    }
+
+    @Test
+    public void test25(){
+        List<String> queueList = new ArrayList<>();
+        for(int i=1;i<=20;i++){
+            queueList.add("dev_"+"growth_delayed_msg_queue_"+String.format("%02d", i));
+        }
+        Collections.sort(queueList, (redisKey1, redisKey2) -> {
+
+            String[] num1array = redisKey1.split("_");
+            String[] num2array = redisKey2.split("_");
+            Integer num1 = Integer.parseInt(redisKey1.substring(("dev_"+"growth_delayed_msg_queue_").length()));
+            System.out.println(num1);
+            Integer num2 = Integer.parseInt(redisKey2.substring(("dev_"+"growth_delayed_msg_queue_").length()));
+            System.out.println(num2);
+            return num1 - num2;
+
+        });
+        System.out.println(queueList);
+    }
+
+    @Test
+    public void test26(){
+        System.out.println("dev_growth_delayed_msg_queue_10".substring(("dev_"+"growth_delayed_msg_queue_").length()));
     }
 }
