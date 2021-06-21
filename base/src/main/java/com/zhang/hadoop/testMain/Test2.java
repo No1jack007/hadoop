@@ -1,5 +1,6 @@
 package com.zhang.hadoop.testMain;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zhang.hadoop.util.AESUtil;
 import org.junit.Test;
@@ -162,9 +163,9 @@ public class Test2 {
         if ((all % size) != 0) {
             limit = limit + 1;
         }
-        System.out.println(limit);
+        System.out.println("limit:"+limit);
         List<List<Integer>> groupData = Stream.iterate(0, n -> n + 1).limit(limit).map(a -> {
-            System.out.println(a);
+            System.out.println("组号:"+a);
             List<Integer> sendList = data.stream().skip(a * size).limit(size).collect(Collectors.toList());
             return sendList;
         }).collect(Collectors.toList());
@@ -211,7 +212,7 @@ public class Test2 {
     public void test15() {
         String s1 = "corn-job_01";
         String s2 = "corn-job";
-        String s3 = s1.substring(s2.length() + 1,s1.length());
+        String s3 = s1.substring(s2.length() + 1, s1.length());
         System.out.println(s3);
     }
 
@@ -295,26 +296,26 @@ public class Test2 {
 
     @Test
     public void test20() {
-        System.out.println(10%0);
+        System.out.println(10 % 0);
     }
 
     @Test
     public void test22() {
-        AtomicInteger counter=new AtomicInteger(0);
-        for(int i=0;i<3000;i++){
+        AtomicInteger counter = new AtomicInteger(0);
+        for (int i = 0; i < 3000; i++) {
             System.out.println(counter.incrementAndGet());
         }
     }
 
     @Test
     public void test23() {
-        AtomicInteger counter=new AtomicInteger(0);
+        AtomicInteger counter = new AtomicInteger(0);
         System.out.println(counter.addAndGet(10));
-        System.out.println(String.format("%s-%s","persistent://op/growth/waiting_update_delay_message_status","growth"));
+        System.out.println(String.format("%s-%s", "persistent://op/growth/waiting_update_delay_message_status", "growth"));
     }
 
     @Test
-    public void test24(){
+    public void test24() {
         List<String> list = new ArrayList<String>();
         list.add("abc2003");
         list.add("abc2005");
@@ -324,9 +325,9 @@ public class Test2 {
 
         Collections.sort(list, (o1, o2) -> {
             // 返回相反的compare
-            String no1=o1.substring(4,7);
+            String no1 = o1.substring(4, 7);
             System.out.println(no1);
-            String no2=o2.substring(4,7);
+            String no2 = o2.substring(4, 7);
             System.out.println(no2);
             return no1.compareTo(no2);
         });
@@ -334,27 +335,79 @@ public class Test2 {
     }
 
     @Test
-    public void test25(){
+    public void test25() {
         List<String> queueList = new ArrayList<>();
-        for(int i=1;i<=20;i++){
-            queueList.add("dev_"+"growth_delayed_msg_queue_"+String.format("%02d", i));
+        for (int i = 1; i <= 20; i++) {
+            queueList.add("dev_" + "growth_delayed_msg_queue_" + String.format("%02d", i));
         }
         Collections.sort(queueList, (redisKey1, redisKey2) -> {
 
             String[] num1array = redisKey1.split("_");
             String[] num2array = redisKey2.split("_");
-            Integer num1 = Integer.parseInt(redisKey1.substring(("dev_"+"growth_delayed_msg_queue_").length()));
+            Integer num1 = Integer.parseInt(redisKey1.substring(("dev_" + "growth_delayed_msg_queue_").length()));
             System.out.println(num1);
-            Integer num2 = Integer.parseInt(redisKey2.substring(("dev_"+"growth_delayed_msg_queue_").length()));
+            Integer num2 = Integer.parseInt(redisKey2.substring(("dev_" + "growth_delayed_msg_queue_").length()));
             System.out.println(num2);
             return num1 - num2;
-
         });
         System.out.println(queueList);
     }
 
     @Test
-    public void test26(){
-        System.out.println("dev_growth_delayed_msg_queue_10".substring(("dev_"+"growth_delayed_msg_queue_").length()));
+    public void test26() {
+        System.out.println("dev_growth_delayed_msg_queue_10".substring(("dev_" + "growth_delayed_msg_queue_").length()));
+    }
+
+    @Test
+    public void test27() {
+        String s1 = "[\n" +
+                "        {\n" +
+                "            \"floorId\": \"f00001\",\n" +
+                "            \"floorType\": \"editor\",\n" +
+                "            \"templateBody\": \"xxxxadq2312${xxx.xxx}asdasdas\",\n" +
+                "            \"dataSource\": {\n" +
+                "                \"from\": \"operating\",\n" +
+                "                \"bizType\": \"\",\n" +
+                "                \"bizId\": \"\",\n" +
+                "                \"dataSourceType\": \"job_card_image\",\n" +
+                "                \"dataSourceId\": \"000001\",\n" +
+                "                \"pageSize\": 10,\n" +
+                "                \"filter\": {}\n" +
+                "            }\n" +
+                "        },\n" +
+                "        {}\n" +
+                "    ]\n";
+
+        List<JSONObject> templates = JSONArray.parseArray(s1, JSONObject.class);
+        System.out.println(templates);
+    }
+
+    @Test
+    public void test28() {
+        int threadPoolSize = 10;
+        int queueSize = 20;
+        threadPoolSize = threadPoolSize > queueSize ? queueSize : threadPoolSize;
+        System.out.println(threadPoolSize);
+    }
+
+    @Test
+    public void test29() {
+        int core = Runtime.getRuntime().availableProcessors();
+        System.out.println(core);
+    }
+
+    @Test
+    public void test30() {
+        List<Integer> list = new ArrayList();
+        for (int i = 0; i < 10; i++) {
+            list.add(i);
+            list.add(i);
+            list.add(i);
+            list.add(i);
+        }
+        list=list.stream().collect(
+                Collectors.toMap(v -> v, v -> v, (v1, v2) -> v1))
+                .values().stream().collect(Collectors.toList());
+        System.out.println(list.toString());
     }
 }

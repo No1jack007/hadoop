@@ -1,6 +1,7 @@
 package com.zhang.hadoop;
 
 import com.zhang.hadoop.redis.RedisService;
+import com.zhang.hadoop.service.ExecutorService;
 import com.zhang.hadoop.util.SpringUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,6 +25,7 @@ public class Application {
         kafkaTest();
         hbaseUtilTest();
         redisTest();
+        executorTest();
     }
 
     @Bean
@@ -65,8 +67,13 @@ public class Application {
     }
 
     public static void redisTest() {
-        RedisService bean= SpringUtil.getBean(RedisService.class);
-        bean.set("b","1");
+//        RedisService bean= SpringUtil.getBean(RedisService.class);
+//        bean.set("b","1");
+    }
+
+    public static void executorTest(){
+        ExecutorService bean=SpringUtil.getBean(ExecutorService.class);
+        bean.process();
     }
 
 }
