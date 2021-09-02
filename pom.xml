@@ -99,6 +99,7 @@
         <module>spring-cloud-base</module>
         <module>data-base</module>
         <module>thrift</module>
+        <module>design-pattern</module>
     </modules>
 
     <build>
